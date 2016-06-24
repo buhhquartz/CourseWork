@@ -1,0 +1,22 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2016-06-24T23:04:43
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = ProjectX
+TEMPLATE = app
+
+
+SOURCES += main.cpp\
+        formprojectx.cpp \
+    sceneprojectx.cpp
+
+HEADERS  += formprojectx.h \
+    sceneprojectx.h
+
+FORMS    += formprojectx.ui
