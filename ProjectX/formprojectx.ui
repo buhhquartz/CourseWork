@@ -166,7 +166,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../../Point.png</normaloff>../../Point.png</iconset>
+       <normaloff>Point.png</normaloff>Point.png</iconset>
      </property>
      <property name="checkable">
       <bool>false</bool>
@@ -186,7 +186,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../../Line.png</normaloff>../../Line.png</iconset>
+       <normaloff>Line.png</normaloff>Line.png</iconset>
      </property>
     </widget>
     <widget class="QToolButton" name="inW">
@@ -203,7 +203,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../../Wheel.png</normaloff>../../Wheel.png</iconset>
+       <normaloff>Wheel.png</normaloff>Wheel.png</iconset>
      </property>
     </widget>
    </widget>
