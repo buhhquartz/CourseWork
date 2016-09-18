@@ -640,8 +640,8 @@ void FormProjectX::Anim_clicked()
                 item_k = i;
             }
         }
-        timerv->start(tlimit * 10);
     }
+    timerv->start(tlimit * 10);
 }
 
 void FormProjectX::update_xy_formove()
@@ -784,8 +784,8 @@ void FormProjectX::Anim_clicked_accel()
                 item_k = i;
             }
         }
-        timera->start(tlimit * 10);
     }
+    timera->start(tlimit * 10);
 }
 
 void FormProjectX::update_xy_foraccel()
