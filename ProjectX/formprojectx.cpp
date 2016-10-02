@@ -27,11 +27,12 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
 
     //Сигналы по функциональным кнопкам
     //Меню -> Выход
-    connect(ui->menuFile, SIGNAL(triggered(QAction*)), this, SLOT(close()));
+    connect(ui->ExitMenu, SIGNAL(triggered(bool)), this, SLOT(close()));
     //Настройки -> Время анимации
     dtlimit = 5;
     tlimit = dtlimit;
     h = dtlimit / 100;
+    connect(ui->timeSetting, SIGNAL(triggered(bool)), this, SLOT(timeSetting_clicked()));
 
 
     scene = new SceneProjectX(this);
@@ -563,6 +564,59 @@ void FormProjectX::change_scene_clicked(){
     }
     connect(x, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
     connect(y, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
+}
+
+void FormProjectX::timeSetting_clicked()
+{
+    if(lay->isEmpty()){
+        v1 = new QHBoxLayout;
+        v2 = new QHBoxLayout;
+        timel = new QLabel("t = ");
+        time_m = new QLineEdit();
+        QString helpT = QString::number(dtlimit);
+        time_m->setText(helpT);
+        ChangeTime = new QPushButton("Изменить");
+        v1->addWidget(timel);
+        v1->addWidget(time_m);
+        v2->addWidget(ChangeTime);
+
+        lay = new QVBoxLayout;
+        lay->addLayout(v1);
+        lay->addLayout(v2);
+        ui->groupBox_2->setLayout(lay);
+    }
+    else{
+        delete(lay);
+        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+
+        v1 = new QHBoxLayout;
+        v2 = new QHBoxLayout;
+        timel = new QLabel("t = ");
+        time_m = new QLineEdit();
+        QString helpT = QString::number(dtlimit);
+        time_m->setText(helpT);
+        ChangeTime = new QPushButton("Изменить");
+        v1->addWidget(timel);
+        v1->addWidget(time_m);
+        v2->addWidget(ChangeTime);
+
+        lay = new QVBoxLayout;
+        lay->addLayout(v1);
+        lay->addLayout(v2);
+        ui->groupBox_2->setLayout(lay);
+    }
+    connect(ChangeTime, SIGNAL(clicked(bool)), this, SLOT(ChangeTime_clicked()));
+}
+
+void FormProjectX::ChangeTime_clicked()
+{
+    dtlimit = time_m->text().toDouble();
+    tlimit = dtlimit;
+    h = dtlimit / 100;
+
+    delete(lay);
+    qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+    lay = new QVBoxLayout;
 }
 
 void FormProjectX::MovePB_clicked()

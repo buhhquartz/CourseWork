@@ -82,6 +82,8 @@ public slots:
     void update_xy_formove();
     void update_xy_foraccel();
     void contact_trWi_clicked();
+    void timeSetting_clicked();
+    void ChangeTime_clicked();
 
 private:
     Ui::FormProjectX *ui;
@@ -137,6 +139,7 @@ private:
     QPushButton *MovePB;
     QPushButton *AddNewDetail;
     QPushButton *Accel;
+    QPushButton *ChangeTime;
     QHBoxLayout *vm;
     QTimer *timerv, *timera;
     QHBoxLayout *v5;
