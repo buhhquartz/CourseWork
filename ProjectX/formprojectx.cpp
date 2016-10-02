@@ -9,14 +9,16 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     layeffect = new QHBoxLayout;
     v1 = new QHBoxLayout;
     v2 = new QHBoxLayout;
+    CountItemMovePB = 0;
+    CountNow = 0;
 
     //Создаем таймер для задания равномерного движения мат. точки
     timerv = new QTimer(this);
-    connect(timerv,SIGNAL(timeout()),this,SLOT(update_xy_formove()));
+    connect(timerv, SIGNAL(timeout()), this, SLOT(update_xy_formove()));
 
     //Создаем таймер для задания равноускоренного движения мат. точки
     timera = new QTimer(this);
-    connect(timera,SIGNAL(timeout()),this,SLOT(update_xy_foraccel()));
+    //connect(timera,SIGNAL(timeout()),this,SLOT(update_xy_foraccel()));
 
     boolv = false;
     boola = false;
@@ -44,6 +46,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     //Векторы объектов
     vItem = new QVector<QGraphicsItem*>;//Вектор деталей
     vTree = new QVector<QTreeWidgetItem*>;//Вектор элементов дерева
+    vMovePB = new QVector<MoveMultItem*>;
 
     //Слот срабатывающий при нажатии на элемент в дереве
     connect(treeProjectD, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(trWi_clicked()));
@@ -581,12 +584,14 @@ void FormProjectX::MovePB_clicked()
         time_m = new QLineEdit("Время t");
         v3->addWidget(timel);
         v3->addWidget(time_m);
+        AddNewDetail = new QPushButton("Добавить деталь");
         name_m = new QLineEdit("Название движения");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
         lay->addLayout(v3);
+        lay->addWidget(AddNewDetail);
         lay->addWidget(name_m);
         ui->groupBox_2->setLayout(lay);
     }
@@ -609,55 +614,84 @@ void FormProjectX::MovePB_clicked()
         time_m = new QLineEdit("Время t");
         v3->addWidget(timel);
         v3->addWidget(time_m);
+        AddNewDetail = new QPushButton("Добавить деталь");
         name_m = new QLineEdit("Название движения");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
         lay->addLayout(v3);
+        lay->addWidget(AddNewDetail);
         lay->addWidget(name_m);
         ui->groupBox_2->setLayout(lay);
     }
     if (boolv){
+        connect(AddNewDetail, SIGNAL(clicked(bool)), this, SLOT(AddNewDetail_clicked()));
         connect(ui->Anim, SIGNAL(pressed()), this, SLOT(Anim_clicked()));
     }
 }
 
-void FormProjectX::Anim_clicked()
+void FormProjectX::AddNewDetail_clicked()
 {
+    Detail = new MoveMultItem;
     if(vx == 0 && vy == 0 && boolv){
-        h = time_m->text().toDouble() / 100;
-        tlimit  = time_m->text().toDouble();
-        dtlimit  = time_m->text().toDouble();
-        vx = v_x->text().toDouble() * 30;
-        vy = v_y->text().toDouble() * 30;
+        Detail->h = time_m->text().toDouble() / 100;
+        Detail->dtlimit  = time_m->text().toDouble();
+        Detail->vx = v_x->text().toDouble() * 30;
+        Detail->vy = v_y->text().toDouble() * 30;
 
         //Поиск элемента выбранного для анимации
         for(int i = 0; i < vTree->size(); i++){
             if(vTree->at(i)->isSelected()){
-                xm = vItem->at(i)->pos().x();
-                ym = -vItem->at(i)->pos().y();
-                item_k = i;
+                Detail->xm = vItem->at(i)->pos().x();
+                Detail->ym = -vItem->at(i)->pos().y();
+                Detail->item_k = i;
             }
         }
+        Detail->end = true;
+        vMovePB->push_back(Detail);
+        CountItemMovePB++;
     }
-    timerv->start(tlimit * 10);
+    delete(lay);
+    qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+    lay = new QVBoxLayout;
+}
+
+void FormProjectX::Anim_clicked()
+{
+    if(boolv){
+        timerv->start(30);
+    }
 }
 
 void FormProjectX::update_xy_formove()
-{ 
-    //Обновление координат при движении объекта
-    if (boolv){
-        xm += vx * h;
-        ym += vy * h;
-        dtlimit -= h;
-        vItem->at(item_k)->setPos(xm, -ym);
-
-        //Проверка окончания времени анимации
-        if(dtlimit <= 0){
+{
+    if(boolv){
+        int i = 0;
+        while(i != CountItemMovePB){
+            if (vMovePB->at(i)->end){
+                vMovePB->at(i)->xm += vMovePB->at(i)->vx * vMovePB->at(i)->h;
+                vMovePB->at(i)->ym += vMovePB->at(i)->vy * vMovePB->at(i)->h;
+                vMovePB->at(i)->dtlimit -= vMovePB->at(i)->h;
+                vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
+                qDebug() << i;
+            }
+            if (vMovePB->at(i)->dtlimit <= 0){
+                qDebug() << "Вышло время:" << i;
+                if (vMovePB->at(i)->end){
+                    vMovePB->at(i)->end = false;
+                    CountNow++;
+                }
+            }
+            i++;
+        }
+        if (CountItemMovePB == CountNow){
+            qDebug() << "Yeah!";
             timerv->stop();
             ui->Anim->setEnabled(false);
             ui->stopAnim->setEnabled(false);
+            CountItemMovePB = 0;
+            CountNow = 0;
         }
     }
 }

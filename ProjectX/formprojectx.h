@@ -27,6 +27,17 @@ namespace Ui {
 class FormProjectX;
 }
 
+struct MoveMultItem{
+    double vx;
+    double vy;
+    double xm;
+    double ym;
+    double dtlimit;
+    double h;
+    int item_k;
+    bool end;
+};
+
 class FormProjectX : public QMainWindow
 {
     Q_OBJECT
@@ -66,6 +77,7 @@ public slots:
     void change_trWi_clicked();
     void restructure_graphicitem_fromtree();
     void change_scene_clicked();
+    void AddNewDetail_clicked();
     void Anim_clicked();
     void Anim_clicked_accel();
     void stopAnim_clicked();
@@ -122,13 +134,18 @@ private:
     QGraphicsItemGroup *Wheel;
 
     //Движение точки
+    QVector<MoveMultItem*> *vMovePB;
     QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *name_m;
     QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel;
     QPushButton *MovePB;
+    QPushButton *AddNewDetail;
     QPushButton *Accel;
     QHBoxLayout *vm;
     QTimer *timerv, *timera;
     QHBoxLayout *v5;
+    MoveMultItem *Detail;
+    int CountItemMovePB;
+    int CountNow;
     double xm;
     double ym;
     double vx;
