@@ -10,7 +10,6 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     v1 = new QHBoxLayout;
     v2 = new QHBoxLayout;
     CountItemMovePB = 0;
-    CountNow = 0;
 
     //Создаем таймер для задания равномерного движения мат. точки
     timerv = new QTimer(this);
@@ -27,7 +26,13 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     ui->stopAnim->setEnabled(false);
 
     //Сигналы по функциональным кнопкам
+    //Меню -> Выход
     connect(ui->menuFile, SIGNAL(triggered(QAction*)), this, SLOT(close()));
+    //Настройки -> Время анимации
+    dtlimit = 5;
+    tlimit = dtlimit;
+    h = dtlimit / 100;
+
 
     scene = new SceneProjectX(this);
     ui->View->setScene(scene);
@@ -571,7 +576,6 @@ void FormProjectX::MovePB_clicked()
     if (lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
-        v3 = new QHBoxLayout;
         vxl1 = new QLabel("v_x=");
         v_x = new QLineEdit("Скорость x");
         v1->addWidget(vxl1);
@@ -580,12 +584,7 @@ void FormProjectX::MovePB_clicked()
         v_y = new QLineEdit("Скорость y");
         v2->addWidget(vyl1);
         v2->addWidget(v_y);
-        timel = new QLabel("t=");
-        time_m = new QLineEdit("Время t");
-        v3->addWidget(timel);
-        v3->addWidget(time_m);
         AddNewDetail = new QPushButton("Добавить деталь");
-        name_m = new QLineEdit("Название движения");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
@@ -601,7 +600,6 @@ void FormProjectX::MovePB_clicked()
 
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
-        v3 = new QHBoxLayout;
         vxl1 = new QLabel("v_x=");
         v_x = new QLineEdit("Скорость x");
         v1->addWidget(vxl1);
@@ -610,19 +608,12 @@ void FormProjectX::MovePB_clicked()
         v_y = new QLineEdit("Скорость y");
         v2->addWidget(vyl1);
         v2->addWidget(v_y);
-        timel = new QLabel("t=");
-        time_m = new QLineEdit("Время t");
-        v3->addWidget(timel);
-        v3->addWidget(time_m);
         AddNewDetail = new QPushButton("Добавить деталь");
-        name_m = new QLineEdit("Название движения");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
-        lay->addLayout(v3);
         lay->addWidget(AddNewDetail);
-        lay->addWidget(name_m);
         ui->groupBox_2->setLayout(lay);
     }
     if (boolv){
@@ -635,8 +626,8 @@ void FormProjectX::AddNewDetail_clicked()
 {
     Detail = new MoveMultItem;
     if(vx == 0 && vy == 0 && boolv){
-        Detail->h = time_m->text().toDouble() / 100;
-        Detail->dtlimit  = time_m->text().toDouble();
+        helph = h;
+        helpdtlimit = dtlimit;
         Detail->vx = v_x->text().toDouble() * 30;
         Detail->vy = v_y->text().toDouble() * 30;
 
@@ -648,7 +639,6 @@ void FormProjectX::AddNewDetail_clicked()
                 Detail->item_k = i;
             }
         }
-        Detail->end = true;
         vMovePB->push_back(Detail);
         CountItemMovePB++;
     }
@@ -668,30 +658,20 @@ void FormProjectX::update_xy_formove()
 {
     if(boolv){
         int i = 0;
-        while(i != CountItemMovePB){
-            if (vMovePB->at(i)->end){
-                vMovePB->at(i)->xm += vMovePB->at(i)->vx * vMovePB->at(i)->h;
-                vMovePB->at(i)->ym += vMovePB->at(i)->vy * vMovePB->at(i)->h;
-                vMovePB->at(i)->dtlimit -= vMovePB->at(i)->h;
-                vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
-                qDebug() << i;
-            }
-            if (vMovePB->at(i)->dtlimit <= 0){
-                qDebug() << "Вышло время:" << i;
-                if (vMovePB->at(i)->end){
-                    vMovePB->at(i)->end = false;
-                    CountNow++;
-                }
-            }
-            i++;
-        }
-        if (CountItemMovePB == CountNow){
+        helpdtlimit -= helph;
+
+        if (helpdtlimit <= 0){
             qDebug() << "Yeah!";
             timerv->stop();
             ui->Anim->setEnabled(false);
             ui->stopAnim->setEnabled(false);
-            CountItemMovePB = 0;
-            CountNow = 0;
+        }
+
+        while((i != CountItemMovePB) && (helpdtlimit > 0)){
+            vMovePB->at(i)->xm += vMovePB->at(i)->vx * helph;
+            vMovePB->at(i)->ym += vMovePB->at(i)->vy * helph;
+            vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
+            i++;
         }
     }
 }

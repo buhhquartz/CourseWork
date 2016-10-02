@@ -306,6 +306,7 @@
     <property name="title">
      <string>Настройки</string>
     </property>
+    <addaction name="timeSetting"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -323,6 +324,11 @@
    </property>
    <property name="text">
     <string>Выход</string>
+   </property>
+  </action>
+  <action name="timeSetting">
+   <property name="text">
+    <string>Время анимации</string>
    </property>
   </action>
  </widget>

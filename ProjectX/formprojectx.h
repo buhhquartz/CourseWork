@@ -32,10 +32,7 @@ struct MoveMultItem{
     double vy;
     double xm;
     double ym;
-    double dtlimit;
-    double h;
     int item_k;
-    bool end;
 };
 
 class FormProjectX : public QMainWindow
@@ -145,17 +142,16 @@ private:
     QHBoxLayout *v5;
     MoveMultItem *Detail;
     int CountItemMovePB;
-    int CountNow;
     double xm;
     double ym;
     double vx;
     double vy;
     double ax;
     double ay;
-    double h;
+    double h, helph;
     double vxh, vyh, th, dx, dy, vxp, vyp;
     double tlimit;
-    double dtlimit;
+    double dtlimit, helpdtlimit;
     double item_k;
     bool boolv, boola;
 };
