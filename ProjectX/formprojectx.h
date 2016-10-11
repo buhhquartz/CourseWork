@@ -35,6 +35,18 @@ struct MoveMultItem{
     int item_k;
 };
 
+struct MoveMultItemAccel{
+    double vx;
+    double vy;
+    double ax;
+    double ay;
+    double dx;
+    double dy;
+    double xm;
+    double ym;
+    int item_k;
+};
+
 class FormProjectX : public QMainWindow
 {
     Q_OBJECT
@@ -75,6 +87,7 @@ public slots:
     void restructure_graphicitem_fromtree();
     void change_scene_clicked();
     void AddNewDetail_clicked();
+    void AddNewDetailAccel_clicked();
     void Anim_clicked();
     void Anim_clicked_accel();
     void stopAnim_clicked();
@@ -134,27 +147,30 @@ private:
 
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
+    QVector<MoveMultItemAccel*> *vMoveAccel;
     QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *name_m;
     QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel;
     QPushButton *MovePB;
-    QPushButton *AddNewDetail;
+    QPushButton *AddNewDetail, *AddNewDetailAccel;
     QPushButton *Accel;
     QPushButton *ChangeTime;
     QHBoxLayout *vm;
     QTimer *timerv, *timera;
     QHBoxLayout *v5;
     MoveMultItem *Detail;
+    MoveMultItemAccel *DetailAccel;
     int CountItemMovePB;
+    int CountItemAccel;
     double xm;
     double ym;
     double vx;
     double vy;
     double ax;
     double ay;
-    double h, helph;
+    double h, helph, helphAccel;
     double vxh, vyh, th, dx, dy, vxp, vyp;
     double tlimit;
-    double dtlimit, helpdtlimit;
+    double dtlimit, helpdtlimit, helpdtlimitAccel;
     double item_k;
     bool boolv, boola;
 };

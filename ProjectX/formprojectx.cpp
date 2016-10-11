@@ -10,6 +10,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     v1 = new QHBoxLayout;
     v2 = new QHBoxLayout;
     CountItemMovePB = 0;
+    CountItemAccel = 0;
 
     //Создаем таймер для задания равномерного движения мат. точки
     timerv = new QTimer(this);
@@ -17,10 +18,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
 
     //Создаем таймер для задания равноускоренного движения мат. точки
     timera = new QTimer(this);
-    //connect(timera,SIGNAL(timeout()),this,SLOT(update_xy_foraccel()));
-
-    boolv = false;
-    boola = false;
+    connect(timera,SIGNAL(timeout()),this,SLOT(update_xy_foraccel()));
 
     ui->Anim->setEnabled(false);
     ui->stopAnim->setEnabled(false);
@@ -53,6 +51,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     vItem = new QVector<QGraphicsItem*>;//Вектор деталей
     vTree = new QVector<QTreeWidgetItem*>;//Вектор элементов дерева
     vMovePB = new QVector<MoveMultItem*>;
+    vMoveAccel = new QVector<MoveMultItemAccel*>;
 
     //Слот срабатывающий при нажатии на элемент в дереве
     connect(treeProjectD, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(trWi_clicked()));
@@ -623,10 +622,7 @@ void FormProjectX::MovePB_clicked()
 {
     ui->Anim->setEnabled(true);
     ui->stopAnim->setEnabled(true);
-    vx = 0;
-    vy = 0;
-    boolv = true;
-    boola = false;
+
     if (lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
@@ -643,9 +639,7 @@ void FormProjectX::MovePB_clicked()
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
-        lay->addLayout(v3);
         lay->addWidget(AddNewDetail);
-        lay->addWidget(name_m);
         ui->groupBox_2->setLayout(lay);
     }
     else{
@@ -670,32 +664,34 @@ void FormProjectX::MovePB_clicked()
         lay->addWidget(AddNewDetail);
         ui->groupBox_2->setLayout(lay);
     }
-    if (boolv){
-        connect(AddNewDetail, SIGNAL(clicked(bool)), this, SLOT(AddNewDetail_clicked()));
-        connect(ui->Anim, SIGNAL(pressed()), this, SLOT(Anim_clicked()));
-    }
+
+    connect(AddNewDetail, SIGNAL(clicked(bool)), this, SLOT(AddNewDetail_clicked()));
+    connect(ui->Anim, SIGNAL(pressed()), this, SLOT(Anim_clicked()));
+
 }
 
 void FormProjectX::AddNewDetail_clicked()
 {
     Detail = new MoveMultItem;
-    if(vx == 0 && vy == 0 && boolv){
-        helph = h;
-        helpdtlimit = dtlimit;
-        Detail->vx = v_x->text().toDouble() * 30;
-        Detail->vy = v_y->text().toDouble() * 30;
 
-        //Поиск элемента выбранного для анимации
-        for(int i = 0; i < vTree->size(); i++){
-            if(vTree->at(i)->isSelected()){
-                Detail->xm = vItem->at(i)->pos().x();
-                Detail->ym = -vItem->at(i)->pos().y();
-                Detail->item_k = i;
-            }
+    helph = h;
+    helpdtlimit = dtlimit;
+
+    Detail->vx = v_x->text().toDouble() * 30;
+    Detail->vy = v_y->text().toDouble() * 30;
+
+    //Поиск элемента выбранного для анимации
+    for(int i = 0; i < vTree->size(); i++){
+        if(vTree->at(i)->isSelected()){
+            Detail->xm = vItem->at(i)->pos().x();
+            Detail->ym = -vItem->at(i)->pos().y();
+            Detail->item_k = i;
         }
-        vMovePB->push_back(Detail);
-        CountItemMovePB++;
     }
+
+    vMovePB->push_back(Detail);
+    CountItemMovePB++;
+
     delete(lay);
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
@@ -703,60 +699,46 @@ void FormProjectX::AddNewDetail_clicked()
 
 void FormProjectX::Anim_clicked()
 {
-    if(boolv){
-        timerv->start(30);
-    }
+    timerv->start(30);
 }
 
 void FormProjectX::update_xy_formove()
 {
-    if(boolv){
-        int i = 0;
-        helpdtlimit -= helph;
+    int i = 0;
+    helpdtlimit -= helph;
 
-        if (helpdtlimit <= 0){
-            qDebug() << "Yeah!";
-            timerv->stop();
-            ui->Anim->setEnabled(false);
-            ui->stopAnim->setEnabled(false);
-        }
+    if (helpdtlimit <= 0){
+        qDebug() << "Yeah!";
+        timerv->stop();
+        ui->Anim->setEnabled(false);
+        ui->stopAnim->setEnabled(false);
+        CountItemMovePB = 0;
+    }
 
-        while((i != CountItemMovePB) && (helpdtlimit > 0)){
-            vMovePB->at(i)->xm += vMovePB->at(i)->vx * helph;
-            vMovePB->at(i)->ym += vMovePB->at(i)->vy * helph;
-            vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
-            i++;
-        }
+    while((i != CountItemMovePB) && (helpdtlimit > 0)){
+        vMovePB->at(i)->xm += vMovePB->at(i)->vx * helph;
+        vMovePB->at(i)->ym += vMovePB->at(i)->vy * helph;
+        vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
+        i++;
     }
 }
 
 void FormProjectX::stopAnim_clicked()
 {
     //Действие при нажатии на кнопку "Стоп" во время равномерного движения
-    if (boolv){
-        timerv->stop();
-    }
+    timerv->stop();
 }
 
 void FormProjectX::Accel_clicked()
 {
     ui->Anim->setEnabled(true);
     ui->stopAnim->setEnabled(true);
-    vx = 0;
-    vy = 0;
-    ax = 0;
-    ay = 0;
-    th = 0;
-    dx = 0;
-    dy = 0;
-    boola = true;
-    boolv = false;
+
     if (lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
         v3 = new QHBoxLayout;
         v4 = new QHBoxLayout;
-        v5 = new QHBoxLayout;
         vxl1 = new QLabel("v0_x=");
         v_x = new QLineEdit("Скорость x0");
         v1->addWidget(vxl1);
@@ -773,19 +755,14 @@ void FormProjectX::Accel_clicked()
         a_y = new QLineEdit("Ускорение y");
         v4->addWidget(ayl1);
         v4->addWidget(a_y);
-        timel = new QLabel("t=");
-        time_m = new QLineEdit("Время t");
-        v5->addWidget(timel);
-        v5->addWidget(time_m);
-        name_m = new QLineEdit("Название движения");
+        AddNewDetailAccel = new QPushButton("Добавить деталь");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
         lay->addLayout(v3);
         lay->addLayout(v4);
-        lay->addLayout(v5);
-        lay->addWidget(name_m);
+        lay->addWidget(AddNewDetailAccel);
         ui->groupBox_2->setLayout(lay);
     }
     else{
@@ -796,7 +773,6 @@ void FormProjectX::Accel_clicked()
         v2 = new QHBoxLayout;
         v3 = new QHBoxLayout;
         v4 = new QHBoxLayout;
-        v5 = new QHBoxLayout;
         vxl1 = new QLabel("v0_x=");
         v_x = new QLineEdit("Скорость x0");
         v1->addWidget(vxl1);
@@ -813,72 +789,79 @@ void FormProjectX::Accel_clicked()
         a_y = new QLineEdit("Ускорение y");
         v4->addWidget(ayl1);
         v4->addWidget(a_y);
-        timel = new QLabel("t=");
-        time_m = new QLineEdit("Время t");
-        v5->addWidget(timel);
-        v5->addWidget(time_m);
-        name_m = new QLineEdit("Название движения");
+        AddNewDetailAccel = new QPushButton("Добавить деталь");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
         lay->addLayout(v3);
         lay->addLayout(v4);
-        lay->addLayout(v5);
-        lay->addWidget(name_m);
+        lay->addWidget(AddNewDetailAccel);
         ui->groupBox_2->setLayout(lay);
     }
-    if (boola){
-        connect(ui->Anim, SIGNAL(pressed()), this, SLOT(Anim_clicked_accel()));
+
+    connect(AddNewDetailAccel, SIGNAL(clicked(bool)), this, SLOT(AddNewDetailAccel_clicked()));
+    connect(ui->Anim, SIGNAL(pressed()), this, SLOT(Anim_clicked_accel()));
+}
+
+void FormProjectX::AddNewDetailAccel_clicked()
+{
+    DetailAccel = new MoveMultItemAccel;
+
+    helpdtlimitAccel = dtlimit;
+    helphAccel = h;
+
+    DetailAccel->vx = v_x->text().toDouble() * 30;
+    DetailAccel->vy = v_y->text().toDouble() * 30;
+    DetailAccel->ax = a_x->text().toDouble() * 30;
+    DetailAccel->ay = a_y->text().toDouble() * 30;
+
+    //Поиск элемента выбранного для анимации
+    for(int i = 0; i < vTree->size(); i++){
+        if(vTree->at(i)->isSelected()){
+            DetailAccel->dx = vItem->at(i)->pos().x();
+            DetailAccel->dy = -vItem->at(i)->pos().y();
+            DetailAccel->item_k = i;
+        }
     }
+    vMoveAccel->push_back(DetailAccel);
+    CountItemAccel++;
+
+    delete(lay);
+    qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+    lay = new QVBoxLayout;
 }
 
 void FormProjectX::Anim_clicked_accel()
 {
-    if(vx == 0 && vy == 0 && boola){
-        h = time_m->text().toDouble() / 100;
-        tlimit  = time_m->text().toDouble();
-        dtlimit  = time_m->text().toDouble();
-        vx = v_x->text().toDouble() * 30;
-        vy = v_y->text().toDouble() * 30;
-        ax = a_x->text().toDouble() * 30;
-        ay = a_y->text().toDouble() * 30;
-
-        //Поиск элемента выбранного для анимации
-        for(int i = 0; i < vTree->size(); i++){
-            if(vTree->at(i)->isSelected()){
-                dx = vItem->at(i)->pos().x();
-                dy = -vItem->at(i)->pos().y();
-                item_k = i;
-            }
-        }
-    }
-    timera->start(tlimit * 10);
+    timera->start(30);
 }
 
 void FormProjectX::update_xy_foraccel()
 {
     //Обновление координат при движении объекта
-    if (boola){
-        th += h;
-        xm = dx + vx*th + ax*th*th/2;
-        ym = dy + vy*th + ay*th*th/2;
-        dtlimit -= h;
-        vItem->at(item_k)->setPos(xm, -ym);
+    int j = 0;
+    th += h;
+    helpdtlimitAccel -= helphAccel;
 
-        //Проверка окончания времени анимации
-        if(dtlimit <= 0){
-            timera->stop();
-            ui->Anim->setEnabled(false);
-            ui->stopAnim->setEnabled(false);
-        }
+    if (helpdtlimitAccel <= 0){
+        qDebug() << "Yeah!Accel";
+        timera->stop();
+        ui->Anim->setEnabled(false);
+        ui->stopAnim->setEnabled(false);
+        CountItemAccel = 0;
+    }
+
+    while((j != CountItemAccel) && (helpdtlimitAccel > 0)){
+        vMoveAccel->at(j)->xm = vMoveAccel->at(j)->dx + vMoveAccel->at(j)->vx*th + vMoveAccel->at(j)->ax*th*th/2;
+        vMoveAccel->at(j)->ym = vMoveAccel->at(j)->dy + vMoveAccel->at(j)->vy*th + vMoveAccel->at(j)->ay*th*th/2;
+        vItem->at(vMoveAccel->at(j)->item_k)->setPos(vMoveAccel->at(j)->xm, -vMoveAccel->at(j)->ym);
+        j++;
     }
 }
 
 void FormProjectX::stopAnim_clickedaccel()
 {
     //Действие при нажатии на кнопку "Стоп" во время равноускоренного движения
-    if(boola){
-        timera->stop();
-    }
+    timera->stop();
 }
