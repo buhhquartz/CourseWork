@@ -30,6 +30,8 @@ class FormProjectX;
 struct MoveMultItem{
     double vx;
     double vy;
+    double x0m;
+    double y0m;
     double xm;
     double ym;
     int item_k;
@@ -42,6 +44,8 @@ struct MoveMultItemAccel{
     double ay;
     double dx;
     double dy;
+    double x0m;
+    double y0m;
     double xm;
     double ym;
     int item_k;
@@ -97,6 +101,8 @@ public slots:
     void contact_trWi_clicked();
     void timeSetting_clicked();
     void ChangeTime_clicked();
+    void returnAnim_clicked();
+    void delAnim_clicked();
 
 private:
     Ui::FormProjectX *ui;

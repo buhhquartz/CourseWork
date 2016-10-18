@@ -11,6 +11,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     v2 = new QHBoxLayout;
     CountItemMovePB = 0;
     CountItemAccel = 0;
+    th = 0;
 
     //Создаем таймер для задания равномерного движения мат. точки
     timerv = new QTimer(this);
@@ -22,6 +23,8 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
 
     ui->Anim->setEnabled(false);
     ui->stopAnim->setEnabled(false);
+    ui->returnAnim->setEnabled(false);
+    ui->delAnim->setEnabled(false);
 
     //Сигналы по функциональным кнопкам
     //Меню -> Выход
@@ -64,6 +67,8 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     //Слот срабатывающий при нажатии кнопки "Стоп"
     connect(ui->stopAnim, SIGNAL(clicked(bool)), this, SLOT(stopAnim_clicked()));
     connect(ui->stopAnim, SIGNAL(clicked(bool)), this, SLOT(stopAnim_clickedaccel()));
+    connect(ui->returnAnim, SIGNAL(clicked(bool)), this, SLOT(returnAnim_clicked()));
+    connect(ui->delAnim, SIGNAL(clicked(bool)), this, SLOT(delAnim_clicked()));
 
 }
 
@@ -620,9 +625,6 @@ void FormProjectX::ChangeTime_clicked()
 
 void FormProjectX::MovePB_clicked()
 {
-    ui->Anim->setEnabled(true);
-    ui->stopAnim->setEnabled(true);
-
     if (lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
@@ -672,6 +674,9 @@ void FormProjectX::MovePB_clicked()
 
 void FormProjectX::AddNewDetail_clicked()
 {
+    ui->Anim->setEnabled(true);
+    ui->stopAnim->setEnabled(false);
+
     Detail = new MoveMultItem;
 
     helph = h;
@@ -683,7 +688,9 @@ void FormProjectX::AddNewDetail_clicked()
     //Поиск элемента выбранного для анимации
     for(int i = 0; i < vTree->size(); i++){
         if(vTree->at(i)->isSelected()){
+            Detail->x0m = vItem->at(i)->pos().x();
             Detail->xm = vItem->at(i)->pos().x();
+            Detail->y0m = -vItem->at(i)->pos().y();
             Detail->ym = -vItem->at(i)->pos().y();
             Detail->item_k = i;
         }
@@ -700,6 +707,10 @@ void FormProjectX::AddNewDetail_clicked()
 void FormProjectX::Anim_clicked()
 {
     timerv->start(30);
+    ui->Anim->setEnabled(false);
+    ui->stopAnim->setEnabled(true);
+    ui->returnAnim->setEnabled(false);
+    ui->delAnim->setEnabled(false);
 }
 
 void FormProjectX::update_xy_formove()
@@ -712,7 +723,9 @@ void FormProjectX::update_xy_formove()
         timerv->stop();
         ui->Anim->setEnabled(false);
         ui->stopAnim->setEnabled(false);
-        CountItemMovePB = 0;
+        ui->returnAnim->setEnabled(true);
+        ui->delAnim->setEnabled(true);
+        //CountItemMovePB = 0;
     }
 
     while((i != CountItemMovePB) && (helpdtlimit > 0)){
@@ -727,13 +740,14 @@ void FormProjectX::stopAnim_clicked()
 {
     //Действие при нажатии на кнопку "Стоп" во время равномерного движения
     timerv->stop();
+    ui->Anim->setEnabled(true);
+    ui->stopAnim->setEnabled(false);
+    ui->returnAnim->setEnabled(false);
+    ui->delAnim->setEnabled(false);
 }
 
 void FormProjectX::Accel_clicked()
 {
-    ui->Anim->setEnabled(true);
-    ui->stopAnim->setEnabled(true);
-
     if (lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
@@ -806,6 +820,8 @@ void FormProjectX::Accel_clicked()
 
 void FormProjectX::AddNewDetailAccel_clicked()
 {
+    ui->Anim->setEnabled(true);
+    ui->stopAnim->setEnabled(false);
     DetailAccel = new MoveMultItemAccel;
 
     helpdtlimitAccel = dtlimit;
@@ -819,7 +835,9 @@ void FormProjectX::AddNewDetailAccel_clicked()
     //Поиск элемента выбранного для анимации
     for(int i = 0; i < vTree->size(); i++){
         if(vTree->at(i)->isSelected()){
+            DetailAccel->x0m = vItem->at(i)->pos().x();
             DetailAccel->dx = vItem->at(i)->pos().x();
+            DetailAccel->y0m = -vItem->at(i)->pos().y();
             DetailAccel->dy = -vItem->at(i)->pos().y();
             DetailAccel->item_k = i;
         }
@@ -835,6 +853,10 @@ void FormProjectX::AddNewDetailAccel_clicked()
 void FormProjectX::Anim_clicked_accel()
 {
     timera->start(30);
+    ui->Anim->setEnabled(false);
+    ui->stopAnim->setEnabled(true);
+    ui->returnAnim->setEnabled(false);
+    ui->delAnim->setEnabled(false);
 }
 
 void FormProjectX::update_xy_foraccel()
@@ -849,7 +871,9 @@ void FormProjectX::update_xy_foraccel()
         timera->stop();
         ui->Anim->setEnabled(false);
         ui->stopAnim->setEnabled(false);
-        CountItemAccel = 0;
+        ui->returnAnim->setEnabled(true);
+        ui->delAnim->setEnabled(true);
+        //CountItemAccel = 0;
     }
 
     while((j != CountItemAccel) && (helpdtlimitAccel > 0)){
@@ -864,4 +888,55 @@ void FormProjectX::stopAnim_clickedaccel()
 {
     //Действие при нажатии на кнопку "Стоп" во время равноускоренного движения
     timera->stop();
+    ui->Anim->setEnabled(true);
+    ui->stopAnim->setEnabled(false);
+    ui->returnAnim->setEnabled(false);
+    ui->delAnim->setEnabled(false);
 }
+
+void FormProjectX::returnAnim_clicked()
+{
+    helph = h;
+    helpdtlimit = dtlimit;
+    for (int i = 0; i < vMovePB->size(); i++){
+        vMovePB->at(i)->xm = vMovePB->at(i)->x0m;
+        vMovePB->at(i)->ym = vMovePB->at(i)->y0m;
+    }
+
+    helphAccel = h;
+    helpdtlimitAccel = dtlimit;
+    th = 0;
+    for (int i = 0; i < vMoveAccel->size(); i++){
+        vMoveAccel->at(i)->dx = vMoveAccel->at(i)->x0m;
+        vMoveAccel->at(i)->dy = vMoveAccel->at(i)->y0m;
+        vMoveAccel->at(i)->xm = 0;
+        vMoveAccel->at(i)->ym = 0;
+    }
+    timerv->start(30);
+    timera->start(30);
+
+    ui->stopAnim->setEnabled(true);
+    ui->delAnim->setEnabled(false);
+    ui->returnAnim->setEnabled(false);
+    ui->Anim->setEnabled(false);
+}
+
+void FormProjectX::delAnim_clicked()
+{
+    for (int i = CountItemMovePB - 1; i >= 0; i--){
+        delete(vMovePB->at(i));
+        vMovePB->removeAt(i);
+    }
+    th = 0;
+    for (int i = CountItemAccel - 1; i >= 0; i--){
+        delete(vMoveAccel->at(i));
+        vMoveAccel->removeAt(i);
+    }
+    CountItemMovePB = 0;
+    CountItemAccel = 0;
+    ui->stopAnim->setEnabled(false);
+    ui->delAnim->setEnabled(false);
+    ui->returnAnim->setEnabled(false);
+    ui->Anim->setEnabled(false);
+}
+

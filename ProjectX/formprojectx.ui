@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>678</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -285,6 +285,32 @@
     </property>
     <property name="text">
      <string>Стоп</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="returnAnim">
+    <property name="geometry">
+     <rect>
+      <x>396</x>
+      <y>630</y>
+      <width>75</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Повторить</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="delAnim">
+    <property name="geometry">
+     <rect>
+      <x>468</x>
+      <y>630</y>
+      <width>75</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Удалить</string>
     </property>
    </widget>
   </widget>
