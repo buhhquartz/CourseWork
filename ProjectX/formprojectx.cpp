@@ -5,6 +5,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
 {
     ui->setupUi(this);
     lay = new QVBoxLayout;
+    laynowcoor = new QVBoxLayout;
     laycontact = new QVBoxLayout;
     layeffect = new QHBoxLayout;
     v1 = new QHBoxLayout;
@@ -20,6 +21,10 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     //Создаем таймер для задания равноускоренного движения мат. точки
     timera = new QTimer(this);
     connect(timera,SIGNAL(timeout()),this,SLOT(update_xy_foraccel()));
+
+    ui->inP->setToolTip("Материальная точка");
+    ui->inR->setToolTip("Стержень");
+    ui->inW->setToolTip("Колесо");
 
     ui->Anim->setEnabled(false);
     ui->stopAnim->setEnabled(false);
@@ -378,11 +383,11 @@ void FormProjectX::contact_trWi_clicked()
     if(laycontact->isEmpty()){
         vm = new QHBoxLayout;
         MovePB = new QPushButton("V");
-        MovePB->setFixedHeight(21);
-        MovePB->setFixedWidth(21);
+        MovePB->setFixedHeight(33);
+        MovePB->setFixedWidth(33);
         Accel = new QPushButton("A");
-        Accel->setFixedHeight(21);
-        Accel->setFixedWidth(21);
+        Accel->setFixedHeight(33);
+        Accel->setFixedWidth(33);
         vm->addWidget(MovePB);
         vm->addWidget(Accel);
         laycontact = new QVBoxLayout;
@@ -424,17 +429,17 @@ void FormProjectX::delE_clicked()
 
 void FormProjectX::change_trWi_clicked()
 {
-    if (lay->isEmpty()){
-        v1 = new QHBoxLayout;
-        v2 = new QHBoxLayout;
+    if (laynowcoor->isEmpty()){
+        vnc1 = new QHBoxLayout;
+        vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
-        v1->addWidget(xl1);
-        v1->addWidget(x);
+        vnc1->addWidget(xl1);
+        vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
-        v2->addWidget(yl1);
-        v2->addWidget(y);
+        vnc2->addWidget(yl1);
+        vnc2->addWidget(y);
 
         for(int i = 0; i < vTree->size(); i++){
             if(vTree->at(i)->isSelected()){
@@ -445,25 +450,25 @@ void FormProjectX::change_trWi_clicked()
             }
         }
 
-        lay = new QVBoxLayout;
-        lay->addLayout(v1);
-        lay->addLayout(v2);
-        ui->groupBox_2->setLayout(lay);
+        laynowcoor = new QVBoxLayout;
+        laynowcoor->addLayout(vnc1);
+        laynowcoor->addLayout(vnc2);
+        ui->groupBox_8->setLayout(laynowcoor);
     }
     else{
-        delete(lay);
-        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+        delete(laynowcoor);
+        qDeleteAll( ui->groupBox_8->findChildren<QWidget*>() );
 
-        v1 = new QHBoxLayout;
-        v2 = new QHBoxLayout;
+        vnc1 = new QHBoxLayout;
+        vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
-        v1->addWidget(xl1);
-        v1->addWidget(x);
+        vnc1->addWidget(xl1);
+        vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
-        v2->addWidget(yl1);
-        v2->addWidget(y);
+        vnc2->addWidget(yl1);
+        vnc2->addWidget(y);
 
         for(int i = 0; i < vTree->size(); i++){
             if(vTree->at(i)->isSelected()){
@@ -474,11 +479,240 @@ void FormProjectX::change_trWi_clicked()
             }
         }
 
-        lay = new QVBoxLayout;
-        lay->addLayout(v1);
-        lay->addLayout(v2);
-        ui->groupBox_2->setLayout(lay);
+        laynowcoor = new QVBoxLayout;
+        laynowcoor->addLayout(vnc1);
+        laynowcoor->addLayout(vnc2);
+        ui->groupBox_8->setLayout(laynowcoor);
     }
+
+    for(int i = 0; i < vTree->size(); i++){
+        if(vTree->at(i)->isSelected()){
+            for (int j = 0; j < vMovePB->size(); j++){
+                if (vMovePB->at(j)->item_k == i){
+                    if (lay->isEmpty()){
+                        v1 = new QHBoxLayout;
+                        v2 = new QHBoxLayout;
+                        v3 = new QHBoxLayout;
+                        v4 = new QHBoxLayout;
+                        QString x0 = QString::number(vMovePB->at(j)->x0m / 30);
+                        QString y0 = QString::number(vMovePB->at(j)->y0m / 30);
+                        QString vx = QString::number(vMovePB->at(j)->vx / 30);
+                        QString vy = QString::number(vMovePB->at(j)->vy / 30);
+
+                        xl0 = new QLabel("x0=");
+                        x_0 = new QLineEdit;
+                        x_0->setText(x0);
+
+                        yl0 = new QLabel("x0=");
+                        y_0 = new QLineEdit;
+                        y_0->setText(y0);
+
+                        vxl1 = new QLabel("v_x=");
+                        v_x = new QLineEdit;
+                        v_x->setText(vx);
+
+                        vyl1 = new QLabel("v_y=");
+                        v_y = new QLineEdit;
+                        v_y->setText(vy);
+
+                        v1->addWidget(xl0);
+                        v1->addWidget(x_0);
+                        v2->addWidget(yl0);
+                        v2->addWidget(y_0);
+                        v3->addWidget(vxl1);
+                        v3->addWidget(v_x);
+                        v4->addWidget(vyl1);
+                        v4->addWidget(v_y);
+
+                        lay = new QVBoxLayout;
+                        lay->addLayout(v1);
+                        lay->addLayout(v2);
+                        lay->addLayout(v3);
+                        lay->addLayout(v4);
+                        ui->groupBox_2->setLayout(lay);
+                    }
+                    else{
+                        delete(lay);
+                        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+
+                        v1 = new QHBoxLayout;
+                        v2 = new QHBoxLayout;
+                        v3 = new QHBoxLayout;
+                        v4 = new QHBoxLayout;
+                        QString x0 = QString::number(vMovePB->at(j)->x0m / 30);
+                        QString y0 = QString::number(vMovePB->at(j)->y0m / 30);
+                        QString vx = QString::number(vMovePB->at(j)->vx / 30);
+                        QString vy = QString::number(vMovePB->at(j)->vy / 30);
+
+                        xl0 = new QLabel("x0=");
+                        x_0 = new QLineEdit;
+                        x_0->setText(x0);
+
+                        yl0 = new QLabel("x0=");
+                        y_0 = new QLineEdit;
+                        y_0->setText(y0);
+
+                        vxl1 = new QLabel("v_x=");
+                        v_x = new QLineEdit;
+                        v_x->setText(vx);
+
+                        vyl1 = new QLabel("v_y=");
+                        v_y = new QLineEdit;
+                        v_y->setText(vy);
+
+                        v1->addWidget(xl0);
+                        v1->addWidget(x_0);
+                        v2->addWidget(yl0);
+                        v2->addWidget(y_0);
+                        v3->addWidget(vxl1);
+                        v3->addWidget(v_x);
+                        v4->addWidget(vyl1);
+                        v4->addWidget(v_y);
+
+                        lay = new QVBoxLayout;
+                        lay->addLayout(v1);
+                        lay->addLayout(v2);
+                        lay->addLayout(v3);
+                        lay->addLayout(v4);
+                        ui->groupBox_2->setLayout(lay);
+                    }
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < vTree->size(); i++){
+        if(vTree->at(i)->isSelected()){
+            for (int j = 0; j < vMoveAccel->size(); j++){
+                if (vMoveAccel->at(j)->item_k == i){
+                    if (lay->isEmpty()){
+                        v1 = new QHBoxLayout;
+                        v2 = new QHBoxLayout;
+                        v3 = new QHBoxLayout;
+                        v4 = new QHBoxLayout;
+                        v5 = new QHBoxLayout;
+                        v6 = new QHBoxLayout;
+                        QString x0 = QString::number(vMoveAccel->at(j)->x0m / 30);
+                        QString y0 = QString::number(vMoveAccel->at(j)->y0m / 30);
+                        QString vx = QString::number(vMoveAccel->at(j)->vx / 30);
+                        QString vy = QString::number(vMoveAccel->at(j)->vy / 30);
+                        QString ax = QString::number(vMoveAccel->at(j)->ax / 30);
+                        QString ay = QString::number(vMoveAccel->at(j)->ay / 30);
+
+                        xl0 = new QLabel("x0=");
+                        x_0 = new QLineEdit;
+                        x_0->setText(x0);
+
+                        yl0 = new QLabel("x0=");
+                        y_0 = new QLineEdit;
+                        y_0->setText(y0);
+
+                        vxl1 = new QLabel("v0_x=");
+                        v_x = new QLineEdit;
+                        v_x->setText(vx);
+
+                        vyl1 = new QLabel("v0_y=");
+                        v_y = new QLineEdit;
+                        v_y->setText(vy);
+
+                        axl1 = new QLabel("a_x=");
+                        a_x = new QLineEdit;
+                        a_x->setText(ax);
+
+                        ayl1 = new QLabel("a_y=");
+                        a_y = new QLineEdit;
+                        a_y->setText(ay);
+
+                        v1->addWidget(xl0);
+                        v1->addWidget(x_0);
+                        v2->addWidget(yl0);
+                        v2->addWidget(y_0);
+                        v3->addWidget(vxl1);
+                        v3->addWidget(v_x);
+                        v4->addWidget(vyl1);
+                        v4->addWidget(v_y);
+                        v5->addWidget(axl1);
+                        v5->addWidget(a_x);
+                        v6->addWidget(ayl1);
+                        v6->addWidget(a_y);
+
+                        lay = new QVBoxLayout;
+                        lay->addLayout(v1);
+                        lay->addLayout(v2);
+                        lay->addLayout(v3);
+                        lay->addLayout(v4);
+                        lay->addLayout(v5);
+                        lay->addLayout(v6);
+                        ui->groupBox_2->setLayout(lay);
+                    }
+                    else{
+                        delete(lay);
+                        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+
+                        v1 = new QHBoxLayout;
+                        v2 = new QHBoxLayout;
+                        v3 = new QHBoxLayout;
+                        v4 = new QHBoxLayout;
+                        v5 = new QHBoxLayout;
+                        v6 = new QHBoxLayout;
+                        QString x0 = QString::number(vMoveAccel->at(j)->x0m / 30);
+                        QString y0 = QString::number(vMoveAccel->at(j)->y0m / 30);
+                        QString vx = QString::number(vMoveAccel->at(j)->vx / 30);
+                        QString vy = QString::number(vMoveAccel->at(j)->vy / 30);
+                        QString ax = QString::number(vMoveAccel->at(j)->ax / 30);
+                        QString ay = QString::number(vMoveAccel->at(j)->ay / 30);
+
+                        xl0 = new QLabel("x0=");
+                        x_0 = new QLineEdit;
+                        x_0->setText(x0);
+
+                        yl0 = new QLabel("x0=");
+                        y_0 = new QLineEdit;
+                        y_0->setText(y0);
+
+                        vxl1 = new QLabel("v0_x=");
+                        v_x = new QLineEdit;
+                        v_x->setText(vx);
+
+                        vyl1 = new QLabel("v0_y=");
+                        v_y = new QLineEdit;
+                        v_y->setText(vy);
+
+                        axl1 = new QLabel("a_x=");
+                        a_x = new QLineEdit;
+                        a_x->setText(ax);
+
+                        ayl1 = new QLabel("a_y=");
+                        a_y = new QLineEdit;
+                        a_y->setText(ay);
+
+                        v1->addWidget(xl0);
+                        v1->addWidget(x_0);
+                        v2->addWidget(yl0);
+                        v2->addWidget(y_0);
+                        v3->addWidget(vxl1);
+                        v3->addWidget(v_x);
+                        v4->addWidget(vyl1);
+                        v4->addWidget(v_y);
+                        v5->addWidget(axl1);
+                        v5->addWidget(a_x);
+                        v6->addWidget(ayl1);
+                        v6->addWidget(a_y);
+
+                        lay = new QVBoxLayout;
+                        lay->addLayout(v1);
+                        lay->addLayout(v2);
+                        lay->addLayout(v3);
+                        lay->addLayout(v4);
+                        lay->addLayout(v5);
+                        lay->addLayout(v6);
+                        ui->groupBox_2->setLayout(lay);
+                    }
+                }
+            }
+        }
+    }
+
     connect(x, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
     connect(y, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
 }
@@ -497,21 +731,21 @@ void FormProjectX::restructure_graphicitem_fromtree()
 
 void FormProjectX::change_scene_clicked(){
 
-    if (lay->isEmpty()){
-        v1 = new QHBoxLayout;
-        v2 = new QHBoxLayout;
+    if (laynowcoor->isEmpty()){
+        vnc1 = new QHBoxLayout;
+        vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
-        v1->addWidget(xl1);
-        v1->addWidget(x);
+        vnc1->addWidget(xl1);
+        vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
-        v2->addWidget(yl1);
-        v2->addWidget(y);
+        vnc2->addWidget(yl1);
+        vnc2->addWidget(y);
 
-        lay = new QVBoxLayout;
-        lay->addLayout(v1);
-        lay->addLayout(v2);
+        laynowcoor = new QVBoxLayout;
+        laynowcoor->addLayout(vnc1);
+        laynowcoor->addLayout(vnc2);
 
         for (int i = 0; i < vItem->size(); i++){
             if (vItem->at(i)->isUnderMouse()){
@@ -526,28 +760,28 @@ void FormProjectX::change_scene_clicked(){
                         vTree->at(j)->setSelected(false);
                     }
                 }
-                ui->groupBox_2->setLayout(lay);
+                ui->groupBox_8->setLayout(laynowcoor);
             }
         }
     }
     else{
-        delete(lay);
-        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
+        delete(laynowcoor);
+        qDeleteAll( ui->groupBox_8->findChildren<QWidget*>() );
 
-        v1 = new QHBoxLayout;
-        v2 = new QHBoxLayout;
+        vnc1 = new QHBoxLayout;
+        vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
-        v1->addWidget(xl1);
-        v1->addWidget(x);
+        vnc1->addWidget(xl1);
+        vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
-        v2->addWidget(yl1);
-        v2->addWidget(y);
+        vnc2->addWidget(yl1);
+        vnc2->addWidget(y);
 
-        lay = new QVBoxLayout;
-        lay->addLayout(v1);
-        lay->addLayout(v2);
+        laynowcoor = new QVBoxLayout;
+        laynowcoor->addLayout(vnc1);
+        laynowcoor->addLayout(vnc2);
 
         for (int i = 0; i < vItem->size(); i++){
             if (vItem->at(i)->isUnderMouse()){
@@ -562,7 +796,7 @@ void FormProjectX::change_scene_clicked(){
                         vTree->at(j)->setSelected(false);
                     }
                 }
-                ui->groupBox_2->setLayout(lay);
+                ui->groupBox_8->setLayout(laynowcoor);
             }
         }
     }

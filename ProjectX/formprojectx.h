@@ -109,6 +109,7 @@ private:
     SceneProjectX *scene;
 
     QVBoxLayout *lay;
+    QVBoxLayout *laynowcoor;
     QVBoxLayout *laycontact;
     QHBoxLayout *layeffect;
 
@@ -151,18 +152,21 @@ private:
     //addWheel
     QGraphicsItemGroup *Wheel;
 
+    //Текущие координаты
+    QHBoxLayout *vnc1, *vnc2;
+
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
     QVector<MoveMultItemAccel*> *vMoveAccel;
-    QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *name_m;
-    QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel;
+    QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *name_m, *x_0, *y_0;
+    QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *xl0, *yl0;
     QPushButton *MovePB;
     QPushButton *AddNewDetail, *AddNewDetailAccel;
     QPushButton *Accel;
     QPushButton *ChangeTime;
     QHBoxLayout *vm;
     QTimer *timerv, *timera;
-    QHBoxLayout *v5;
+    QHBoxLayout *v5, *v6;
     MoveMultItem *Detail;
     MoveMultItemAccel *DetailAccel;
     int CountItemMovePB;
