@@ -7,7 +7,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     lay = new QVBoxLayout;
     laynowcoor = new QVBoxLayout;
     laycontact = new QVBoxLayout;
-    layeffect = new QHBoxLayout;
+    layeffect = new QVBoxLayout;
     v1 = new QHBoxLayout;
     v2 = new QHBoxLayout;
     CountItemMovePB = 0;
@@ -357,22 +357,32 @@ void FormProjectX::addWheel_okWheel_clicked()
 void FormProjectX::trWi_clicked()
 {
     if (layeffect->isEmpty()){
-        delE = new QPushButton("Удалить");
-        delE->setFixedHeight(30);
-        delE->setFixedWidth(65);
-        layeffect = new QHBoxLayout;
-        layeffect->addWidget(delE);
+        layDelE = new QHBoxLayout;
+        delE = new QPushButton;
+        delE->setIcon(QIcon(":/images/Del.png"));
+        delE->setIconSize(QSize(25, 25));
+        delE->setToolTip("Удалить");
+        delE->setFixedHeight(33);
+        delE->setFixedWidth(33);
+        layDelE->addWidget(delE);
+        layeffect = new QVBoxLayout;
+        layeffect->addLayout(layDelE);
         ui->groupBox_7->setLayout(layeffect);
     }
     else{
         delete(layeffect);
         qDeleteAll( ui->groupBox_7->findChildren<QWidget*>() );
 
-        delE = new QPushButton("Удалить");
-        delE->setFixedHeight(30);
-        delE->setFixedWidth(65);
-        layeffect = new QHBoxLayout;
-        layeffect->addWidget(delE);
+        layDelE = new QHBoxLayout;
+        delE = new QPushButton;
+        delE->setIcon(QIcon(":/images/Del.png"));
+        delE->setIconSize(QSize(25, 25));
+        delE->setToolTip("Удалить");
+        delE->setFixedHeight(33);
+        delE->setFixedWidth(33);
+        layDelE->addWidget(delE);
+        layeffect = new QVBoxLayout;
+        layeffect->addLayout(layDelE);
         ui->groupBox_7->setLayout(layeffect);
     }
     connect(delE, SIGNAL(clicked(bool)), this, SLOT(delE_clicked()));
@@ -382,14 +392,27 @@ void FormProjectX::contact_trWi_clicked()
 {
     if(laycontact->isEmpty()){
         vm = new QHBoxLayout;
-        MovePB = new QPushButton("V");
+        MovePB = new QPushButton;
+        MovePB->setIcon(QIcon(":/images/Speed.png"));
+        MovePB->setIconSize(QSize(25, 25));
+        MovePB->setToolTip("Равномерное движение");
         MovePB->setFixedHeight(33);
         MovePB->setFixedWidth(33);
-        Accel = new QPushButton("A");
+        Accel = new QPushButton;
+        Accel->setIcon(QIcon(":/images/Accel.png"));
+        Accel->setIconSize(QSize(25, 25));
+        Accel->setToolTip("Равноускоренное движение");
         Accel->setFixedHeight(33);
         Accel->setFixedWidth(33);
+        CoordMeth = new QPushButton;
+        CoordMeth->setIcon(QIcon(":/images/Coord.png"));
+        CoordMeth->setIconSize(QSize(25, 25));
+        CoordMeth->setToolTip("Координатный способ задания движения");
+        CoordMeth->setFixedHeight(33);
+        CoordMeth->setFixedWidth(33);
+        vm->addWidget(CoordMeth);
         vm->addWidget(MovePB);
-        vm->addWidget(Accel);
+        vm->addWidget(Accel);  
         laycontact = new QVBoxLayout;
         laycontact->addLayout(vm);
         ui->groupBox_6->setLayout(laycontact);
@@ -399,12 +422,25 @@ void FormProjectX::contact_trWi_clicked()
         qDeleteAll( ui->groupBox_6->findChildren<QWidget*>() );
 
         vm = new QHBoxLayout;
-        MovePB = new QPushButton("V");
-        MovePB->setFixedHeight(21);
-        MovePB->setFixedWidth(21);
-        Accel = new QPushButton("A");
-        Accel->setFixedHeight(21);
-        Accel->setFixedWidth(21);
+        MovePB = new QPushButton;
+        MovePB->setIcon(QIcon(":/images/Speed.png"));
+        MovePB->setIconSize(QSize(25, 25));
+        MovePB->setToolTip("Равномерное движение");
+        MovePB->setFixedHeight(33);
+        MovePB->setFixedWidth(33);
+        Accel = new QPushButton;
+        Accel->setIcon(QIcon(":/images/Accel.png"));
+        Accel->setIconSize(QSize(25, 25));
+        Accel->setToolTip("Равноускоренное движение");
+        Accel->setFixedHeight(33);
+        Accel->setFixedWidth(33);
+        CoordMeth = new QPushButton;
+        CoordMeth->setIcon(QIcon(":/images/Coord.png"));
+        CoordMeth->setIconSize(QSize(25, 25));
+        CoordMeth->setToolTip("Координатный способ задания движения");
+        CoordMeth->setFixedHeight(33);
+        CoordMeth->setFixedWidth(33);
+        vm->addWidget(CoordMeth);
         vm->addWidget(MovePB);
         vm->addWidget(Accel);
         laycontact = new QVBoxLayout;
@@ -434,10 +470,12 @@ void FormProjectX::change_trWi_clicked()
         vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
+        x->setDisabled(true);
         vnc1->addWidget(xl1);
         vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
+        y->setDisabled(true);
         vnc2->addWidget(yl1);
         vnc2->addWidget(y);
 
@@ -463,10 +501,12 @@ void FormProjectX::change_trWi_clicked()
         vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
+        x->setDisabled(true);
         vnc1->addWidget(xl1);
         vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
+        y->setDisabled(true);
         vnc2->addWidget(yl1);
         vnc2->addWidget(y);
 
@@ -713,20 +753,6 @@ void FormProjectX::change_trWi_clicked()
         }
     }
 
-    connect(x, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
-    connect(y, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
-}
-
-void FormProjectX::restructure_graphicitem_fromtree()
-{
-    for(int i = 0; i < vTree->size(); i++){
-        if(vTree->at(i)->isSelected()){
-            double x1, y1;
-            x1 = x->text().toDouble() * 30;
-            y1 = y->text().toDouble() * 30;
-            vItem->at(i)->setPos(x1, (-1)*y1);
-        }
-    }
 }
 
 void FormProjectX::change_scene_clicked(){
@@ -736,10 +762,12 @@ void FormProjectX::change_scene_clicked(){
         vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
+        x->setDisabled(true);
         vnc1->addWidget(xl1);
         vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
+        y->setDisabled(true);
         vnc2->addWidget(yl1);
         vnc2->addWidget(y);
 
@@ -772,10 +800,12 @@ void FormProjectX::change_scene_clicked(){
         vnc2 = new QHBoxLayout;
         xl1 = new QLabel("x=");
         x = new QLineEdit();
+        x->setDisabled(true);
         vnc1->addWidget(xl1);
         vnc1->addWidget(x);
         yl1 = new QLabel("y=");
         y = new QLineEdit();
+        y->setDisabled(true);
         vnc2->addWidget(yl1);
         vnc2->addWidget(y);
 
@@ -800,12 +830,11 @@ void FormProjectX::change_scene_clicked(){
             }
         }
     }
-    connect(x, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
-    connect(y, SIGNAL(editingFinished()), this, SLOT(restructure_graphicitem_fromtree()));
 }
 
 void FormProjectX::timeSetting_clicked()
 {
+    ui->groupBox_2->setTitle("Настройки");
     if(lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
@@ -855,6 +884,7 @@ void FormProjectX::ChangeTime_clicked()
     delete(lay);
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
+    ui->groupBox_2->setTitle("Свойства");
 }
 
 void FormProjectX::MovePB_clicked()
@@ -870,7 +900,7 @@ void FormProjectX::MovePB_clicked()
         v_y = new QLineEdit("Скорость y");
         v2->addWidget(vyl1);
         v2->addWidget(v_y);
-        AddNewDetail = new QPushButton("Добавить деталь");
+        AddNewDetail = new QPushButton("Запомнить");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
@@ -892,7 +922,7 @@ void FormProjectX::MovePB_clicked()
         v_y = new QLineEdit("Скорость y");
         v2->addWidget(vyl1);
         v2->addWidget(v_y);
-        AddNewDetail = new QPushButton("Добавить деталь");
+        AddNewDetail = new QPushButton("Запомнить");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
@@ -936,6 +966,9 @@ void FormProjectX::AddNewDetail_clicked()
     delete(lay);
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
+
+    MovePB->setDisabled(true);
+    Accel->setDisabled(true);
 }
 
 void FormProjectX::Anim_clicked()
@@ -952,7 +985,7 @@ void FormProjectX::update_xy_formove()
     int i = 0;
     helpdtlimit -= helph;
 
-    if (helpdtlimit <= 0){
+    if (helpdtlimit < -3.39808e-14){
         qDebug() << "Yeah!";
         timerv->stop();
         ui->Anim->setEnabled(false);
@@ -961,8 +994,7 @@ void FormProjectX::update_xy_formove()
         ui->delAnim->setEnabled(true);
         //CountItemMovePB = 0;
     }
-
-    while((i != CountItemMovePB) && (helpdtlimit > 0)){
+    while((i != CountItemMovePB) && (helpdtlimit >= -3.39808e-14)){
         vMovePB->at(i)->xm += vMovePB->at(i)->vx * helph;
         vMovePB->at(i)->ym += vMovePB->at(i)->vy * helph;
         vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
@@ -1003,7 +1035,7 @@ void FormProjectX::Accel_clicked()
         a_y = new QLineEdit("Ускорение y");
         v4->addWidget(ayl1);
         v4->addWidget(a_y);
-        AddNewDetailAccel = new QPushButton("Добавить деталь");
+        AddNewDetailAccel = new QPushButton("Запомнить");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
@@ -1037,7 +1069,7 @@ void FormProjectX::Accel_clicked()
         a_y = new QLineEdit("Ускорение y");
         v4->addWidget(ayl1);
         v4->addWidget(a_y);
-        AddNewDetailAccel = new QPushButton("Добавить деталь");
+        AddNewDetailAccel = new QPushButton("Запомнить");
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
@@ -1082,6 +1114,9 @@ void FormProjectX::AddNewDetailAccel_clicked()
     delete(lay);
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
+
+    MovePB->setDisabled(true);
+    Accel->setDisabled(true);
 }
 
 void FormProjectX::Anim_clicked_accel()
@@ -1100,7 +1135,7 @@ void FormProjectX::update_xy_foraccel()
     th += h;
     helpdtlimitAccel -= helphAccel;
 
-    if (helpdtlimitAccel <= 0){
+    if (helpdtlimitAccel < -3.39808e-14){
         qDebug() << "Yeah!Accel";
         timera->stop();
         ui->Anim->setEnabled(false);
@@ -1110,7 +1145,7 @@ void FormProjectX::update_xy_foraccel()
         //CountItemAccel = 0;
     }
 
-    while((j != CountItemAccel) && (helpdtlimitAccel > 0)){
+    while((j != CountItemAccel) && (helpdtlimitAccel >= -3.39808e-14)){
         vMoveAccel->at(j)->xm = vMoveAccel->at(j)->dx + vMoveAccel->at(j)->vx*th + vMoveAccel->at(j)->ax*th*th/2;
         vMoveAccel->at(j)->ym = vMoveAccel->at(j)->dy + vMoveAccel->at(j)->vy*th + vMoveAccel->at(j)->ay*th*th/2;
         vItem->at(vMoveAccel->at(j)->item_k)->setPos(vMoveAccel->at(j)->xm, -vMoveAccel->at(j)->ym);

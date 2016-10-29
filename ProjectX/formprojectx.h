@@ -88,7 +88,6 @@ public slots:
     //Действие
     void delE_clicked();
     void change_trWi_clicked();
-    void restructure_graphicitem_fromtree();
     void change_scene_clicked();
     void AddNewDetail_clicked();
     void AddNewDetailAccel_clicked();
@@ -111,7 +110,7 @@ private:
     QVBoxLayout *lay;
     QVBoxLayout *laynowcoor;
     QVBoxLayout *laycontact;
-    QHBoxLayout *layeffect;
+    QVBoxLayout *layeffect;
 
     //Дерево проекта
     QTreeWidget *treeProjectD;
@@ -160,11 +159,10 @@ private:
     QVector<MoveMultItemAccel*> *vMoveAccel;
     QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *name_m, *x_0, *y_0;
     QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *xl0, *yl0;
-    QPushButton *MovePB;
+    QPushButton *MovePB, *Accel, *CoordMeth;
     QPushButton *AddNewDetail, *AddNewDetailAccel;
-    QPushButton *Accel;
     QPushButton *ChangeTime;
-    QHBoxLayout *vm;
+    QHBoxLayout *vm, *layDelE;
     QTimer *timerv, *timera;
     QHBoxLayout *v5, *v6;
     MoveMultItem *Detail;

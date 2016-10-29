@@ -45,7 +45,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>219</y>
+       <y>221</y>
        <width>262</width>
        <height>161</height>
       </rect>
@@ -65,7 +65,7 @@
        <x>0</x>
        <y>29</y>
        <width>262</width>
-       <height>121</height>
+       <height>122</height>
       </rect>
      </property>
      <property name="font">
@@ -81,9 +81,31 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>149</y>
-       <width>262</width>
-       <height>61</height>
+       <y>170</y>
+       <width>264</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <italic>false</italic>
+      </font>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>12</x>
+       <y>155</y>
+       <width>65</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="font">
@@ -91,7 +113,7 @@
        <pointsize>10</pointsize>
       </font>
      </property>
-     <property name="title">
+     <property name="text">
       <string>Действия</string>
      </property>
     </widget>
@@ -259,6 +281,7 @@
     <property name="title">
      <string/>
     </property>
+    <zorder>groupBox_7</zorder>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
