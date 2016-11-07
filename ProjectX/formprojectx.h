@@ -157,8 +157,8 @@ private:
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
     QVector<MoveMultItemAccel*> *vMoveAccel;
-    QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *name_m, *x_0, *y_0;
-    QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *xl0, *yl0;
+    QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *time_h, *x_0, *y_0;
+    QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *timehl, *xl0, *yl0;
     QPushButton *MovePB, *Accel, *CoordMeth;
     QPushButton *AddNewDetail, *AddNewDetailAccel;
     QPushButton *ChangeTime;

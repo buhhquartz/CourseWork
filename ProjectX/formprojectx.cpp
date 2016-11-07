@@ -37,7 +37,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     //Настройки -> Время анимации
     dtlimit = 5;
     tlimit = dtlimit;
-    h = dtlimit / 100;
+    h = 0.05;
     connect(ui->timeSetting, SIGNAL(triggered(bool)), this, SLOT(timeSetting_clicked()));
 
 
@@ -838,18 +838,26 @@ void FormProjectX::timeSetting_clicked()
     if(lay->isEmpty()){
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
+        v3 = new QHBoxLayout;
         timel = new QLabel("t = ");
         time_m = new QLineEdit();
+        timehl = new QLabel("dt = ");
+        time_h = new QLineEdit();
         QString helpT = QString::number(dtlimit);
         time_m->setText(helpT);
+        QString helpH = QString::number(h);
+        time_h->setText(helpH);
         ChangeTime = new QPushButton("Изменить");
         v1->addWidget(timel);
         v1->addWidget(time_m);
-        v2->addWidget(ChangeTime);
+        v2->addWidget(timehl);
+        v2->addWidget(time_h);
+        v3->addWidget(ChangeTime);
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
+        lay->addLayout(v3);
         ui->groupBox_2->setLayout(lay);
     }
     else{
@@ -858,18 +866,26 @@ void FormProjectX::timeSetting_clicked()
 
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
+        v3 = new QHBoxLayout;
         timel = new QLabel("t = ");
         time_m = new QLineEdit();
+        timehl = new QLabel("dt = ");
+        time_h = new QLineEdit();
         QString helpT = QString::number(dtlimit);
         time_m->setText(helpT);
+        QString helpH = QString::number(h);
+        time_h->setText(helpH);
         ChangeTime = new QPushButton("Изменить");
         v1->addWidget(timel);
         v1->addWidget(time_m);
-        v2->addWidget(ChangeTime);
+        v2->addWidget(timehl);
+        v2->addWidget(time_h);
+        v3->addWidget(ChangeTime);
 
         lay = new QVBoxLayout;
         lay->addLayout(v1);
         lay->addLayout(v2);
+        lay->addLayout(v3);
         ui->groupBox_2->setLayout(lay);
     }
     connect(ChangeTime, SIGNAL(clicked(bool)), this, SLOT(ChangeTime_clicked()));
@@ -879,7 +895,7 @@ void FormProjectX::ChangeTime_clicked()
 {
     dtlimit = time_m->text().toDouble();
     tlimit = dtlimit;
-    h = dtlimit / 100;
+    h = time_h->text().toDouble();
 
     delete(lay);
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
