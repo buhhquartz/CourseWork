@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>800</height>
+    <height>821</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -281,7 +281,6 @@
     <property name="title">
      <string/>
     </property>
-    <zorder>groupBox_7</zorder>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -302,65 +301,64 @@
      <string>Движение</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Anim">
+   <widget class="QPushButton" name="Play">
     <property name="geometry">
      <rect>
-      <x>571</x>
+      <x>664</x>
       <y>720</y>
-      <width>75</width>
-      <height>23</height>
+      <width>44</width>
+      <height>44</height>
      </rect>
     </property>
     <property name="text">
-     <string>Анимация</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Play.png</normaloff>Play.png</iconset>
     </property>
    </widget>
-   <widget class="QPushButton" name="stopAnim">
+   <widget class="QPushButton" name="Stop">
     <property name="geometry">
      <rect>
-      <x>717</x>
+      <x>748</x>
       <y>720</y>
-      <width>75</width>
-      <height>23</height>
+      <width>44</width>
+      <height>44</height>
      </rect>
     </property>
     <property name="text">
-     <string>Стоп</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Stop.png</normaloff>Stop.png</iconset>
     </property>
    </widget>
-   <widget class="QPushButton" name="returnAnim">
+   <widget class="QPushButton" name="Pause">
     <property name="geometry">
      <rect>
-      <x>644</x>
+      <x>706</x>
       <y>720</y>
-      <width>75</width>
-      <height>23</height>
+      <width>44</width>
+      <height>44</height>
      </rect>
     </property>
     <property name="text">
-     <string>Повторить</string>
+     <string/>
     </property>
-   </widget>
-   <widget class="QPushButton" name="delAnim">
-    <property name="geometry">
-     <rect>
-      <x>498</x>
-      <y>720</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Удалить</string>
+    <property name="icon">
+     <iconset>
+      <normaloff>Pause.png</normaloff>Pause.png</iconset>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_8">
     <property name="geometry">
      <rect>
       <x>819</x>
-      <y>644</y>
+      <y>641</y>
       <width>262</width>
-      <height>98</height>
+      <height>122</height>
      </rect>
     </property>
     <property name="font">

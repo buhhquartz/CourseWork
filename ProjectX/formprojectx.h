@@ -91,17 +91,18 @@ public slots:
     void change_scene_clicked();
     void AddNewDetail_clicked();
     void AddNewDetailAccel_clicked();
-    void Anim_clicked();
-    void Anim_clicked_accel();
-    void stopAnim_clicked();
-    void stopAnim_clickedaccel();
+    void Play_clicked();
+    void Play_clicked_accel();
+    void Stop_clicked();
+    void Stop_clickedAccel();
     void update_xy_formove();
     void update_xy_foraccel();
     void contact_trWi_clicked();
     void timeSetting_clicked();
     void ChangeTime_clicked();
-    void returnAnim_clicked();
-    void delAnim_clicked();
+    void Pause_clicked();
+    void change_MoveMultItem();
+    void change_MoveMultItemAccel();
 
 private:
     Ui::FormProjectX *ui;
@@ -157,7 +158,8 @@ private:
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
     QVector<MoveMultItemAccel*> *vMoveAccel;
-    QLineEdit *v_x, *v_y, *a_x, *a_y, *time_m, *time_h, *x_0, *y_0;
+    QLineEdit *v_x, *v_y, *a_x, *a_y;
+    QLineEdit *vA_x, *vA_y, *aA_x, *aA_y, *xA_0, *yA_0, *vV_x, *vV_y, *xV_0, *yV_0, *time_m, *time_h;
     QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *timehl, *xl0, *yl0;
     QPushButton *MovePB, *Accel, *CoordMeth;
     QPushButton *AddNewDetail, *AddNewDetailAccel;
@@ -169,6 +171,7 @@ private:
     MoveMultItemAccel *DetailAccel;
     int CountItemMovePB;
     int CountItemAccel;
+    int statusAnimation;
     double xm;
     double ym;
     double vx;
