@@ -48,7 +48,8 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     ui->View->setScene(scene);
 
     //Введение системы координат
-    scene->setSceneRect(-ui->View->width()/2, -ui->View->height()/2, ui->View->width(), ui->View->height());
+    //scene->setSceneRect(-ui->View->width()/2, -ui->View->height()/2, ui->View->width(), ui->View->height());
+    scene->setSceneRect(-3000.0/2, -3000.0/2, 3000.0, 3000.0);
     scene->coordinate_system();
 
     //Дерево проекта
@@ -461,13 +462,9 @@ void FormProjectX::delE_clicked()
                     delete(vMovePB->at(j));
                     vMovePB->removeAt(j);
                     CountItemMovePB--;
-                    qDebug() << CountItemMovePB;
                     for(int k = j; k < vMovePB->size(); k++){
                         vMovePB->at(k)->item_k--;
                     }
-                    /*for(int f = j; f < vMoveAccel->size(); f++){
-                        vMoveAccel->at(f)->item_k--;
-                    }*/
                 }
             }
             for(int j = 0; j < vMoveAccel->size(); j++){
@@ -478,9 +475,6 @@ void FormProjectX::delE_clicked()
                     for(int k = j; k < vMoveAccel->size(); k++){
                         vMoveAccel->at(k)->item_k--;
                     }
-                    /*for(int f = j; f < vMovePB->size(); f++){
-                        vMovePB->at(f)->item_k--;
-                    }*/
                 }
             }
         }
@@ -1123,7 +1117,6 @@ void FormProjectX::update_xy_formove()
     }
     else{
         while(i != CountItemMovePB){
-            qDebug() << "!!!";
             vMovePB->at(i)->xm += vMovePB->at(i)->vx * helph;
             vMovePB->at(i)->ym += vMovePB->at(i)->vy * helph;
             vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);

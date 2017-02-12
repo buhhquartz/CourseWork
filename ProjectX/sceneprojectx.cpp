@@ -2,6 +2,7 @@
 
 void SceneProjectX::coordinate_system()
 {
+
     this->addLine(0.0, (-1)*-(height()/2), 0.0, (-1)*(height()/2));
     this->addLine(-(width()/2), 0.0, (width()/2), 0.0);
     this->addText("O")->setPos(-15.0, (-1)*0.0);
