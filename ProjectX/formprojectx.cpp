@@ -400,6 +400,7 @@ void FormProjectX::contact_trWi_clicked()
         MovePB->setToolTip("Равномерное движение");
         MovePB->setFixedHeight(33);
         MovePB->setFixedWidth(33);
+
         Accel = new QPushButton;
         Accel->setIcon(QIcon(":/images/Accel.png"));
         Accel->setIconSize(QSize(25, 25));
