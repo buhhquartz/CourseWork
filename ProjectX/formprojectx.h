@@ -180,7 +180,7 @@ private:
     double ay;
     double h, helph, helphAccel;
     double vxh, vyh, th, dx, dy, vxp, vyp;
-    double tlimit;
+    double tlimit, tAnim;
     double dtlimit, helpdtlimit, helpdtlimitAccel;
     double item_k;
     bool boolv, boola;

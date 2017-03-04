@@ -40,6 +40,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     //Настройки -> Время анимации
     dtlimit = 5;
     tlimit = dtlimit;
+    tAnim = 5;
     h = 0.05;
     connect(ui->timeSetting, SIGNAL(triggered(bool)), this, SLOT(timeSetting_clicked()));
 
@@ -931,6 +932,7 @@ void FormProjectX::change_scene_clicked(){
 
 void FormProjectX::timeSetting_clicked()
 {
+
     ui->groupBox_2->setTitle("Настройки");
     if(lay->isEmpty()){
         v1 = new QHBoxLayout;
@@ -938,11 +940,11 @@ void FormProjectX::timeSetting_clicked()
         v3 = new QHBoxLayout;
         timel = new QLabel("t = ");
         time_m = new QLineEdit();
-        timehl = new QLabel("dt = ");
+        timehl = new QLabel("Время анимации = ");
         time_h = new QLineEdit();
         QString helpT = QString::number(dtlimit);
         time_m->setText(helpT);
-        QString helpH = QString::number(h);
+        QString helpH = QString::number(tAnim);
         time_h->setText(helpH);
         ChangeTime = new QPushButton("Изменить");
         v1->addWidget(timel);
@@ -966,11 +968,11 @@ void FormProjectX::timeSetting_clicked()
         v3 = new QHBoxLayout;
         timel = new QLabel("t = ");
         time_m = new QLineEdit();
-        timehl = new QLabel("dt = ");
+        timehl = new QLabel("Время анимации = ");
         time_h = new QLineEdit();
         QString helpT = QString::number(dtlimit);
         time_m->setText(helpT);
-        QString helpH = QString::number(h);
+        QString helpH = QString::number(tAnim);
         time_h->setText(helpH);
         ChangeTime = new QPushButton("Изменить");
         v1->addWidget(timel);
@@ -992,7 +994,8 @@ void FormProjectX::ChangeTime_clicked()
 {
     dtlimit = time_m->text().toDouble();
     tlimit = dtlimit;
-    h = time_h->text().toDouble();
+    tAnim = time_h->text().toDouble();
+    h = dtlimit / time_h->text().toDouble() * 0.025;
 
     delete(lay);
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
