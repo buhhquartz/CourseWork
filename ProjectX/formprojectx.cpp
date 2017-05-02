@@ -4,6 +4,7 @@
 FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::FormProjectX)
 {
     ui->setupUi(this);
+    ui->centralwidget->scroll(20, 20);
     lay = new QVBoxLayout;
     laynowcoor = new QVBoxLayout;
     laycontact = new QVBoxLayout;
@@ -399,7 +400,10 @@ void FormProjectX::trWi_clicked()
 
 void FormProjectX::contact_trWi_clicked()
 {
-    if(laycontact->isEmpty()){
+    ui->CoordMeth->setEnabled(true);
+    ui->MovePB->setEnabled(true);
+    ui->Accel->setEnabled(true);
+    /*if(laycontact->isEmpty()){
         vm = new QHBoxLayout;
         MovePB = new QPushButton;
         MovePB->setIcon(QIcon(":/images/Speed.png"));
@@ -424,7 +428,7 @@ void FormProjectX::contact_trWi_clicked()
 
         vm->addWidget(CoordMeth);
         vm->addWidget(MovePB);
-        vm->addWidget(Accel);  
+        vm->addWidget(Accel);
         laycontact = new QVBoxLayout;
         laycontact->addLayout(vm);
         ui->groupBox_6->setLayout(laycontact);
@@ -461,10 +465,10 @@ void FormProjectX::contact_trWi_clicked()
         laycontact = new QVBoxLayout;
         laycontact->addLayout(vm);
         ui->groupBox_6->setLayout(laycontact);
-    }
-    connect(MovePB, SIGNAL(clicked(bool)), this, SLOT(MovePB_clicked()));
-    connect(Accel, SIGNAL(clicked(bool)), this, SLOT(Accel_clicked()));
-    connect(CoordMeth, SIGNAL(clicked(bool)), this, SLOT(CoordMeth_clicked()));
+    }*/
+    connect(ui->MovePB, SIGNAL(clicked(bool)), this, SLOT(MovePB_clicked()));
+    connect(ui->Accel, SIGNAL(clicked(bool)), this, SLOT(Accel_clicked()));
+    connect(ui->CoordMeth, SIGNAL(clicked(bool)), this, SLOT(CoordMeth_clicked()));
 }
 
 void FormProjectX::delE_clicked()
@@ -1232,9 +1236,9 @@ void FormProjectX::AddNewDetail_clicked()
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
 
-    MovePB->setDisabled(true);
-    Accel->setDisabled(true);
-    CoordMeth->setDisabled(true);
+    ui->MovePB->setDisabled(true);
+    ui->Accel->setDisabled(true);
+    ui->CoordMeth->setDisabled(true);
 }
 
 void FormProjectX::Play_clicked()
@@ -1399,9 +1403,9 @@ void FormProjectX::AddNewDetailAccel_clicked()
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
 
-    MovePB->setDisabled(true);
-    Accel->setDisabled(true);
-    CoordMeth->setDisabled(true);
+    ui->MovePB->setDisabled(true);
+    ui->Accel->setDisabled(true);
+    ui->CoordMeth->setDisabled(true);
 }
 
 void FormProjectX::Play_clicked_accel()
@@ -1562,9 +1566,9 @@ void FormProjectX::AddNewDetailCoord_clicked()
     qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
     lay = new QVBoxLayout;
 
-    MovePB->setDisabled(true);
-    Accel->setDisabled(true);
-    CoordMeth->setDisabled(true);
+    ui->MovePB->setDisabled(true);
+    ui->Accel->setDisabled(true);
+    ui->CoordMeth->setDisabled(true);
 }
 
 void FormProjectX::Play_clicked_coord()

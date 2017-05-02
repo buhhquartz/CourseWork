@@ -12,9 +12,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
-    <height>821</height>
+    <width>1366</width>
+    <height>768</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1366</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1366</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="acceptDrops">
    <bool>false</bool>
@@ -26,7 +47,7 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>1090</x>
       <y>10</y>
       <width>262</width>
       <height>401</height>
@@ -121,7 +142,7 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>1090</x>
       <y>420</y>
       <width>261</width>
       <height>212</height>
@@ -144,13 +165,13 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>781</width>
-      <height>631</height>
+      <y>69</y>
+      <width>1061</width>
+      <height>612</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -181,9 +202,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>352</width>
-      <height>51</height>
+      <y>20</y>
+      <width>132</width>
+      <height>43</height>
      </rect>
     </property>
     <property name="font">
@@ -195,11 +216,14 @@
     <property name="title">
      <string/>
     </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
     <widget class="QToolButton" name="inP">
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>9</y>
+       <y>4</y>
        <width>33</width>
        <height>33</height>
       </rect>
@@ -225,7 +249,7 @@
      <property name="geometry">
       <rect>
        <x>49</x>
-       <y>9</y>
+       <y>4</y>
        <width>33</width>
        <height>33</height>
       </rect>
@@ -248,7 +272,7 @@
      <property name="geometry">
       <rect>
        <x>89</x>
-       <y>9</y>
+       <y>4</y>
        <width>33</width>
        <height>33</height>
       </rect>
@@ -272,7 +296,7 @@
     <property name="geometry">
      <rect>
       <x>11</x>
-      <y>10</y>
+      <y>-1</y>
       <width>61</width>
       <height>21</height>
      </rect>
@@ -291,23 +315,124 @@
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>30</y>
+      <y>20</y>
       <width>132</width>
-      <height>51</height>
+      <height>43</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="title">
      <string/>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QToolButton" name="CoordMeth">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>4</y>
+       <width>33</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/images/Coord.png</normaloff>:/images/Coord.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="MovePB">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>49</x>
+       <y>4</y>
+       <width>33</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/images/Speed.png</normaloff>:/images/Speed.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="Accel">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>89</x>
+       <y>4</y>
+       <width>33</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/images/Accel.png</normaloff>:/images/Accel.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
       <x>381</x>
-      <y>10</y>
+      <y>0</y>
       <width>91</width>
       <height>20</height>
      </rect>
@@ -325,8 +450,8 @@
    <widget class="QPushButton" name="Play">
     <property name="geometry">
      <rect>
-      <x>664</x>
-      <y>720</y>
+      <x>944</x>
+      <y>679</y>
       <width>44</width>
       <height>44</height>
      </rect>
@@ -342,8 +467,8 @@
    <widget class="QPushButton" name="Stop">
     <property name="geometry">
      <rect>
-      <x>748</x>
-      <y>720</y>
+      <x>1028</x>
+      <y>679</y>
       <width>44</width>
       <height>44</height>
      </rect>
@@ -359,8 +484,8 @@
    <widget class="QPushButton" name="Pause">
     <property name="geometry">
      <rect>
-      <x>706</x>
-      <y>720</y>
+      <x>986</x>
+      <y>679</y>
       <width>44</width>
       <height>44</height>
      </rect>
@@ -376,10 +501,10 @@
    <widget class="QGroupBox" name="groupBox_8">
     <property name="geometry">
      <rect>
-      <x>819</x>
-      <y>641</y>
+      <x>1090</x>
+      <y>630</y>
       <width>262</width>
-      <height>122</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -398,7 +523,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1100</width>
+     <width>1366</width>
      <height>21</height>
     </rect>
    </property>
@@ -438,6 +563,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
