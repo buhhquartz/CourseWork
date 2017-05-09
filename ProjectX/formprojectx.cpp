@@ -47,7 +47,7 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     dtlimit = 5;
     tlimit = dtlimit;
     tAnim = 5;
-    h = 0.05;
+    h = 0.005;
     connect(ui->timeSetting, SIGNAL(triggered(bool)), this, SLOT(timeSetting_clicked()));
 
 
@@ -70,7 +70,6 @@ FormProjectX::FormProjectX(QWidget *parent) : QMainWindow(parent), ui(new Ui::Fo
     vItem = new QVector<QGraphicsItem*>;//Вектор деталей
     vTree = new QVector<QTreeWidgetItem*>;//Вектор элементов дерева
     vMovePB = new QVector<MoveMultItem*>;
-    vMoveAccel = new QVector<MoveMultItemAccel*>;
     vMoveCoord = new QVector<MoveMultItemCoord*>;
 
     //Слот срабатывающий при нажатии на элемент в дереве
@@ -421,16 +420,6 @@ void FormProjectX::delE_clicked()
                     }
                 }
             }
-            for(int j = 0; j < vMoveAccel->size(); j++){
-                if(i == vMoveAccel->at(j)->item_k){
-                    delete(vMoveAccel->at(j));
-                    vMoveAccel->removeAt(j);
-                    CountItemAccel--;
-                    for(int k = j; k < vMoveAccel->size(); k++){
-                        vMoveAccel->at(k)->item_k--;
-                    }
-                }
-            }
             for(int j = 0; j < vMoveCoord->size(); j++){
                 if(i == vMoveCoord->at(j)->item_k){
                     delete(vMoveCoord->at(j));
@@ -603,10 +592,10 @@ void FormProjectX::change_trWi_clicked()
                         v2 = new QHBoxLayout;
                         v3 = new QHBoxLayout;
                         v4 = new QHBoxLayout;
-                        QString x0 = QString::number(vMovePB->at(j)->x0m / 30);
-                        QString y0 = QString::number(vMovePB->at(j)->y0m / 30);
-                        QString vx = QString::number(vMovePB->at(j)->vx / 30);
-                        QString vy = QString::number(vMovePB->at(j)->vy / 30);
+                        QString x0 = QString::number(vMovePB->at(j)->x0 / 30);
+                        QString y0 = QString::number(vMovePB->at(j)->y0 / 30);
+                        QString vx = vMovePB->at(j)->vx;
+                        QString vy = vMovePB->at(j)->vy;
 
                         xl0 = new QLabel("x0=");
                         xV_0->setText(x0);
@@ -644,10 +633,10 @@ void FormProjectX::change_trWi_clicked()
                         v2 = new QHBoxLayout;
                         v3 = new QHBoxLayout;
                         v4 = new QHBoxLayout;
-                        QString x0 = QString::number(vMovePB->at(j)->x0m / 30);
-                        QString y0 = QString::number(vMovePB->at(j)->y0m / 30);
-                        QString vx = QString::number(vMovePB->at(j)->vx / 30);
-                        QString vy = QString::number(vMovePB->at(j)->vy / 30);
+                        QString x0 = QString::number(vMovePB->at(j)->x0 / 30);
+                        QString y0 = QString::number(vMovePB->at(j)->y0 / 30);
+                        QString vx = vMovePB->at(j)->vx;
+                        QString vy = vMovePB->at(j)->vy;
 
                         xl0 = new QLabel("x0=");
                         xV_0->setText(x0);
@@ -675,126 +664,6 @@ void FormProjectX::change_trWi_clicked()
                         lay->addLayout(v2);
                         lay->addLayout(v3);
                         lay->addLayout(v4);
-                        ui->groupBox_2->setLayout(lay);
-                    }
-                }
-            }
-        }
-    }
-
-    for(int i = 0; i < vTree->size(); i++){
-        if(vTree->at(i)->isSelected()){
-            for (int j = 0; j < vMoveAccel->size(); j++){
-                if (vMoveAccel->at(j)->item_k == i){
-                    if (lay->isEmpty()){
-                        v1 = new QHBoxLayout;
-                        v2 = new QHBoxLayout;
-                        v3 = new QHBoxLayout;
-                        v4 = new QHBoxLayout;
-                        v5 = new QHBoxLayout;
-                        v6 = new QHBoxLayout;
-                        QString x0 = QString::number(vMoveAccel->at(j)->x0m / 30);
-                        QString y0 = QString::number(vMoveAccel->at(j)->y0m / 30);
-                        QString vx = QString::number(vMoveAccel->at(j)->vx / 30);
-                        QString vy = QString::number(vMoveAccel->at(j)->vy / 30);
-                        QString ax = QString::number(vMoveAccel->at(j)->ax / 30);
-                        QString ay = QString::number(vMoveAccel->at(j)->ay / 30);
-
-                        xl0 = new QLabel("x0=");
-                        xA_0->setText(x0);
-
-                        yl0 = new QLabel("y0=");
-                        yA_0->setText(y0);
-
-                        vxl1 = new QLabel("v0_x=");
-                        vA_x->setText(vx);
-
-                        vyl1 = new QLabel("v0_y=");
-                        vA_y->setText(vy);
-
-                        axl1 = new QLabel("a_x=");
-                        aA_x->setText(ax);
-
-                        ayl1 = new QLabel("a_y=");
-                        aA_y->setText(ay);
-
-                        v1->addWidget(xl0);
-                        v1->addWidget(xA_0);
-                        v2->addWidget(yl0);
-                        v2->addWidget(yA_0);
-                        v3->addWidget(vxl1);
-                        v3->addWidget(vA_x);
-                        v4->addWidget(vyl1);
-                        v4->addWidget(vA_y);
-                        v5->addWidget(axl1);
-                        v5->addWidget(aA_x);
-                        v6->addWidget(ayl1);
-                        v6->addWidget(aA_y);
-
-                        lay = new QVBoxLayout;
-                        lay->addLayout(v1);
-                        lay->addLayout(v2);
-                        lay->addLayout(v3);
-                        lay->addLayout(v4);
-                        lay->addLayout(v5);
-                        lay->addLayout(v6);
-                        ui->groupBox_2->setLayout(lay);
-                    }
-                    else{
-                        delete(lay);
-                        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
-
-                        v1 = new QHBoxLayout;
-                        v2 = new QHBoxLayout;
-                        v3 = new QHBoxLayout;
-                        v4 = new QHBoxLayout;
-                        v5 = new QHBoxLayout;
-                        v6 = new QHBoxLayout;
-                        QString x0 = QString::number(vMoveAccel->at(j)->x0m / 30);
-                        QString y0 = QString::number(vMoveAccel->at(j)->y0m / 30);
-                        QString vx = QString::number(vMoveAccel->at(j)->vx / 30);
-                        QString vy = QString::number(vMoveAccel->at(j)->vy / 30);
-                        QString ax = QString::number(vMoveAccel->at(j)->ax / 30);
-                        QString ay = QString::number(vMoveAccel->at(j)->ay / 30);
-
-                        xl0 = new QLabel("x0=");
-                        xA_0->setText(x0);
-
-                        yl0 = new QLabel("y0=");
-                        yA_0->setText(y0);
-
-                        vxl1 = new QLabel("v0_x=");
-                        vA_x->setText(vx);
-
-                        vyl1 = new QLabel("v0_y=");
-                        vA_y->setText(vy);
-
-                        axl1 = new QLabel("a_x=");
-                        aA_x->setText(ax);
-
-                        ayl1 = new QLabel("a_y=");
-                        aA_y->setText(ay);
-
-                        v1->addWidget(xl0);
-                        v1->addWidget(xA_0);
-                        v2->addWidget(yl0);
-                        v2->addWidget(yA_0);
-                        v3->addWidget(vxl1);
-                        v3->addWidget(vA_x);
-                        v4->addWidget(vyl1);
-                        v4->addWidget(vA_y);
-                        v5->addWidget(axl1);
-                        v5->addWidget(aA_x);
-                        v6->addWidget(ayl1);
-                        v6->addWidget(aA_y);
-
-                        lay = new QVBoxLayout;
-                        lay->addLayout(v1);
-                        lay->addLayout(v2);
-                        lay->addLayout(v3);
-                        lay->addLayout(v4);
-                        lay->addLayout(v5);
-                        lay->addLayout(v6);
                         ui->groupBox_2->setLayout(lay);
                     }
                 }
@@ -899,13 +768,6 @@ void FormProjectX::change_trWi_clicked()
     connect(vV_x, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItem()));
     connect(vV_y, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItem()));
 
-    connect(xA_0, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemAccel()));
-    connect(yA_0, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemAccel()));
-    connect(vA_x, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemAccel()));
-    connect(vA_y, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemAccel()));
-    connect(aA_x, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemAccel()));
-    connect(aA_y, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemAccel()));
-
     connect(xC_0, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemCoord()));
     connect(yC_0, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemCoord()));
     connect(xtC, SIGNAL(textChanged(QString)), this, SLOT(change_MoveMultItemCoord()));
@@ -918,32 +780,12 @@ void FormProjectX::change_MoveMultItem()
         if(vTree->at(i)->isSelected()){
             for (int j = 0; j < vMovePB->size(); j++){
                 if (vMovePB->at(j)->item_k == i){
-                    vMovePB->at(j)->x0m = xV_0->text().toDouble() * 30;
-                    vMovePB->at(j)->y0m = yV_0->text().toDouble() * 30;
-                    vMovePB->at(j)->xm = vMovePB->at(j)->x0m;
-                    vMovePB->at(j)->ym = vMovePB->at(j)->y0m;
-                    vMovePB->at(j)->vx = vV_x->text().toDouble() * 30;
-                    vMovePB->at(j)->vy = vV_y->text().toDouble() * 30;
-                }
-            }
-        }
-    }
-}
-
-void FormProjectX::change_MoveMultItemAccel()
-{
-    for(int i = 0; i < vTree->size(); i++){
-        if(vTree->at(i)->isSelected()){
-            for (int j = 0; j < vMoveAccel->size(); j++){
-                if (vMoveAccel->at(j)->item_k == i){
-                    vMoveAccel->at(j)->x0m = xA_0->text().toDouble() * 30;
-                    vMoveAccel->at(j)->y0m = yA_0->text().toDouble() * 30;
-                    vMoveAccel->at(j)->dx = vMoveAccel->at(j)->x0m;
-                    vMoveAccel->at(j)->dy = vMoveAccel->at(j)->y0m;
-                    vMoveAccel->at(j)->vx = vA_x->text().toDouble() * 30;
-                    vMoveAccel->at(j)->vy = vA_y->text().toDouble() * 30;
-                    vMoveAccel->at(j)->ax = aA_x->text().toDouble() * 30;
-                    vMoveAccel->at(j)->ay = aA_y->text().toDouble() * 30;
+                    vMovePB->at(j)->x0 = xV_0->text().toDouble() * 30;
+                    vMovePB->at(j)->y0 = yV_0->text().toDouble() * 30;
+                    vMovePB->at(j)->xm = vMovePB->at(j)->x0;
+                    vMovePB->at(j)->ym = vMovePB->at(j)->y0;
+                    vMovePB->at(j)->vx = vV_x->text();
+                    vMovePB->at(j)->vy = vV_y->text();
                 }
             }
         }
@@ -961,107 +803,6 @@ void FormProjectX::change_MoveMultItemCoord()
                     vMoveCoord->at(j)->xt = xtC->text();
                     vMoveCoord->at(j)->yt = ytC->text();
                 }
-            }
-        }
-    }
-}
-
-void FormProjectX::change_scene_clicked(){
-
-    if (laynowcoor->isEmpty()){
-        vnc1 = new QHBoxLayout;
-        vnc2 = new QHBoxLayout;
-        vnc3 = new QHBoxLayout;
-
-        xl1 = new QLabel("x = ");
-        x = new QLineEdit();
-        x->setDisabled(true);
-        vnc1->addWidget(xl1);
-        vnc1->addWidget(x);
-
-        yl1 = new QLabel("y = ");
-        y = new QLineEdit();
-        y->setDisabled(true);
-        vnc2->addWidget(yl1);
-        vnc2->addWidget(y);
-
-        lncLabel_t = new QLabel("t = ");
-        lnc_t = new QLineEdit();
-        lnc_t->setDisabled(true);
-        vnc3->addWidget(lncLabel_t);
-        vnc3->addWidget(lnc_t);
-
-        laynowcoor = new QVBoxLayout;
-        laynowcoor->addLayout(vnc1);
-        laynowcoor->addLayout(vnc2);
-        laynowcoor->addLayout(vnc3);
-
-        for (int i = 0; i < vItem->size(); i++){
-            if (vItem->at(i)->isUnderMouse()){
-                QString xpos = QString::number(vItem->at(i)->pos().x() / 30);
-                QString ypos = QString::number((-1) * vItem->at(i)->pos().y() / 30);
-                QString tnow = QString::number(tShow);
-                x->setText(xpos);
-                y->setText(ypos);
-                lnc_t->setText(tnow);
-
-                vTree->at(i)->setSelected(true);
-                for (int j = 0; j < vTree->size(); j++){
-                    if (j != i){
-                        vTree->at(j)->setSelected(false);
-                    }
-                }
-                ui->groupBox_8->setLayout(laynowcoor);
-            }
-        }
-    }
-    else{
-        delete(laynowcoor);
-        qDeleteAll( ui->groupBox_8->findChildren<QWidget*>() );
-
-        vnc1 = new QHBoxLayout;
-        vnc2 = new QHBoxLayout;
-        vnc3 = new QHBoxLayout;
-
-        xl1 = new QLabel("x = ");
-        x = new QLineEdit();
-        x->setDisabled(true);
-        vnc1->addWidget(xl1);
-        vnc1->addWidget(x);
-
-        yl1 = new QLabel("y = ");
-        y = new QLineEdit();
-        y->setDisabled(true);
-        vnc2->addWidget(yl1);
-        vnc2->addWidget(y);
-
-        lncLabel_t = new QLabel("t = ");
-        lnc_t = new QLineEdit();
-        lnc_t->setDisabled(true);
-        vnc3->addWidget(lncLabel_t);
-        vnc3->addWidget(lnc_t);
-
-        laynowcoor = new QVBoxLayout;
-        laynowcoor->addLayout(vnc1);
-        laynowcoor->addLayout(vnc2);
-        laynowcoor->addLayout(vnc3);
-
-        for (int i = 0; i < vItem->size(); i++){
-            if (vItem->at(i)->isUnderMouse()){
-                QString xpos = QString::number(vItem->at(i)->pos().x() / 30);
-                QString ypos = QString::number((-1) * vItem->at(i)->pos().y() / 30);
-                QString tnow = QString::number(tShow);
-                x->setText(xpos);
-                y->setText(ypos);
-                lnc_t->setText(tnow);
-
-                vTree->at(i)->setSelected(true);
-                for (int j = 0; j < vTree->size(); j++){
-                    if (j != i){
-                        vTree->at(j)->setSelected(false);
-                    }
-                }
-                ui->groupBox_8->setLayout(laynowcoor);
             }
         }
     }
@@ -1146,11 +887,11 @@ void FormProjectX::MovePB_clicked()
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
         vxl1 = new QLabel("v_x=");
-        v_x = new QLineEdit("Скорость x");
+        v_x = new QLineEdit("Функция v_x(t)");
         v1->addWidget(vxl1);
         v1->addWidget(v_x);
         vyl1 = new QLabel("v_y=");
-        v_y = new QLineEdit("Скорость y");
+        v_y = new QLineEdit("Функция v_y(t)");
         v2->addWidget(vyl1);
         v2->addWidget(v_y);
         AddNewDetail = new QPushButton("Запомнить");
@@ -1168,11 +909,11 @@ void FormProjectX::MovePB_clicked()
         v1 = new QHBoxLayout;
         v2 = new QHBoxLayout;
         vxl1 = new QLabel("v_x=");
-        v_x = new QLineEdit("Скорость x");
+        v_x = new QLineEdit("Функция v_x(t)");
         v1->addWidget(vxl1);
         v1->addWidget(v_x);
         vyl1 = new QLabel("v_y=");
-        v_y = new QLineEdit("Скорость y");
+        v_y = new QLineEdit("Функция v_y(t)");
         v2->addWidget(vyl1);
         v2->addWidget(v_y);
         AddNewDetail = new QPushButton("Запомнить");
@@ -1199,15 +940,15 @@ void FormProjectX::AddNewDetail_clicked()
     helph = h;
     helpdtlimit = dtlimit;
 
-    Detail->vx = v_x->text().toDouble() * 30;
-    Detail->vy = v_y->text().toDouble() * 30;
+    Detail->vx = v_x->text();
+    Detail->vy = v_y->text();
 
     //Поиск элемента выбранного для анимации
     for(int i = 0; i < vTree->size(); i++){
         if(vTree->at(i)->isSelected()){
-            Detail->x0m = vItem->at(i)->pos().x();
+            Detail->x0 = vItem->at(i)->pos().x();
             Detail->xm = vItem->at(i)->pos().x();
-            Detail->y0m = -vItem->at(i)->pos().y();
+            Detail->y0 = -vItem->at(i)->pos().y();
             Detail->ym = -vItem->at(i)->pos().y();
             Detail->item_k = i;
         }
@@ -1240,6 +981,8 @@ void FormProjectX::Play_clicked()
 void FormProjectX::update_xy_formove()
 {
     int i = 0;
+    tShow = th;
+    th += h;
     helpdtlimit -= helph;
 
     if (helpdtlimit < -3.39808e-14){
@@ -1249,17 +992,23 @@ void FormProjectX::update_xy_formove()
         ui->Pause->setEnabled(false);
 
         statusAnimation = 0;
+        th = 0;
         helph = h;
         helpdtlimit = dtlimit;
+
         for (int i = 0; i < vMovePB->size(); i++){
-            vMovePB->at(i)->xm = vMovePB->at(i)->x0m;
-            vMovePB->at(i)->ym = vMovePB->at(i)->y0m;
+            vMovePB->at(i)->xm = vMovePB->at(i)->x0;
+            vMovePB->at(i)->ym = vMovePB->at(i)->y0;
         }
     }
     else{
         while(i != CountItemMovePB){
-            vMovePB->at(i)->xm += vMovePB->at(i)->vx * helph;
-            vMovePB->at(i)->ym += vMovePB->at(i)->vy * helph;
+            vxtExpression.globalObject().setProperty("t", th);
+            vytExpression.globalObject().setProperty("t", th);
+
+            vMovePB->at(i)->xm += vxtExpression.evaluate(vMovePB->at(i)->vx).toNumber() * 30 * h;
+            vMovePB->at(i)->ym += vytExpression.evaluate(vMovePB->at(i)->vy).toNumber() * 30 * h;
+
             vItem->at(vMovePB->at(i)->item_k)->setPos(vMovePB->at(i)->xm, -vMovePB->at(i)->ym);
             i++;
         }
@@ -1272,187 +1021,13 @@ void FormProjectX::Stop_clicked()
     statusAnimation = 0;
     helph = h;
     helpdtlimit = dtlimit;
+    th = 0;
     for (int i = 0; i < vMovePB->size(); i++){
-        vMovePB->at(i)->xm = vMovePB->at(i)->x0m;
-        vMovePB->at(i)->ym = vMovePB->at(i)->y0m;
+        vMovePB->at(i)->xm = vMovePB->at(i)->x0;
+        vMovePB->at(i)->ym = vMovePB->at(i)->y0;
     }
 
     timerv->stop();
-    ui->Play->setEnabled(true);
-    ui->Stop->setEnabled(false);
-    ui->Pause->setEnabled(false);
-}
-
-void FormProjectX::Accel_clicked()
-{
-    if (lay->isEmpty()){
-        v1 = new QHBoxLayout;
-        v2 = new QHBoxLayout;
-        v3 = new QHBoxLayout;
-        v4 = new QHBoxLayout;
-        vxl1 = new QLabel("v0_x=");
-        v_x = new QLineEdit("Скорость x0");
-        v1->addWidget(vxl1);
-        v1->addWidget(v_x);
-        vyl1 = new QLabel("v0_y=");
-        v_y = new QLineEdit("Скорость y0");
-        v2->addWidget(vyl1);
-        v2->addWidget(v_y);
-        axl1 = new QLabel("a_x=");
-        a_x = new QLineEdit("Ускорение x");
-        v3->addWidget(axl1);
-        v3->addWidget(a_x);
-        ayl1 = new QLabel("a_y=");
-        a_y = new QLineEdit("Ускорение y");
-        v4->addWidget(ayl1);
-        v4->addWidget(a_y);
-        AddNewDetailAccel = new QPushButton("Запомнить");
-
-        lay = new QVBoxLayout;
-        lay->addLayout(v1);
-        lay->addLayout(v2);
-        lay->addLayout(v3);
-        lay->addLayout(v4);
-        lay->addWidget(AddNewDetailAccel);
-        ui->groupBox_2->setLayout(lay);
-    }
-    else{
-        delete(lay);
-        qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
-
-        v1 = new QHBoxLayout;
-        v2 = new QHBoxLayout;
-        v3 = new QHBoxLayout;
-        v4 = new QHBoxLayout;
-        vxl1 = new QLabel("v0_x=");
-        v_x = new QLineEdit("Скорость x0");
-        v1->addWidget(vxl1);
-        v1->addWidget(v_x);
-        vyl1 = new QLabel("v0_y=");
-        v_y = new QLineEdit("Скорость y0");
-        v2->addWidget(vyl1);
-        v2->addWidget(v_y);
-        axl1 = new QLabel("a_x=");
-        a_x = new QLineEdit("Ускорение x");
-        v3->addWidget(axl1);
-        v3->addWidget(a_x);
-        ayl1 = new QLabel("a_y=");
-        a_y = new QLineEdit("Ускорение y");
-        v4->addWidget(ayl1);
-        v4->addWidget(a_y);
-        AddNewDetailAccel = new QPushButton("Запомнить");
-
-        lay = new QVBoxLayout;
-        lay->addLayout(v1);
-        lay->addLayout(v2);
-        lay->addLayout(v3);
-        lay->addLayout(v4);
-        lay->addWidget(AddNewDetailAccel);
-        ui->groupBox_2->setLayout(lay);
-    }
-
-    connect(AddNewDetailAccel, SIGNAL(clicked(bool)), this, SLOT(AddNewDetailAccel_clicked()));
-    connect(ui->Play, SIGNAL(pressed()), this, SLOT(Play_clicked_accel()));
-}
-
-void FormProjectX::AddNewDetailAccel_clicked()
-{
-    ui->Play->setEnabled(true);
-    ui->Stop->setEnabled(false);
-    DetailAccel = new MoveMultItemAccel;
-
-    helpdtlimitAccel = dtlimit;
-    helphAccel = h;
-
-    DetailAccel->vx = v_x->text().toDouble() * 30;
-    DetailAccel->vy = v_y->text().toDouble() * 30;
-    DetailAccel->ax = a_x->text().toDouble() * 30;
-    DetailAccel->ay = a_y->text().toDouble() * 30;
-
-    //Поиск элемента выбранного для анимации
-    for(int i = 0; i < vTree->size(); i++){
-        if(vTree->at(i)->isSelected()){
-            DetailAccel->x0m = vItem->at(i)->pos().x();
-            DetailAccel->dx = vItem->at(i)->pos().x();
-            DetailAccel->y0m = -vItem->at(i)->pos().y();
-            DetailAccel->dy = -vItem->at(i)->pos().y();
-            DetailAccel->item_k = i;
-        }
-    }
-    vMoveAccel->push_back(DetailAccel);
-    CountItemAccel++;
-
-    delete(lay);
-    qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
-    lay = new QVBoxLayout;
-
-    ui->MovePB->setDisabled(true);
-    ui->CoordMeth->setDisabled(true);
-}
-
-void FormProjectX::Play_clicked_accel()
-{  
-    delete(lay);
-    qDeleteAll( ui->groupBox_2->findChildren<QWidget*>() );
-    lay = new QVBoxLayout;
-
-    statusAnimation = 2;
-    timera->start(30);
-    ui->Play->setEnabled(false);
-    ui->Stop->setEnabled(true);
-    ui->Pause->setEnabled(true);
-}
-
-void FormProjectX::update_xy_foraccel()
-{
-    //Обновление координат при движении объекта
-    int j = 0;
-    th += h;
-    helpdtlimitAccel -= helphAccel;
-
-    if (helpdtlimitAccel < -3.39808e-14){
-        timera->stop();
-        ui->Play->setEnabled(true);
-        ui->Stop->setEnabled(false);
-        ui->Pause->setEnabled(false);
-
-        statusAnimation = 0;
-        helphAccel = h;
-        helpdtlimitAccel = dtlimit;
-        th = 0;
-        for (int i = 0; i < vMoveAccel->size(); i++){
-            vMoveAccel->at(i)->dx = vMoveAccel->at(i)->x0m;
-            vMoveAccel->at(i)->dy = vMoveAccel->at(i)->y0m;
-            vMoveAccel->at(i)->xm = 0;
-            vMoveAccel->at(i)->ym = 0;
-        }
-    }
-    else{
-        while(j != CountItemAccel){
-            vMoveAccel->at(j)->xm = vMoveAccel->at(j)->dx + vMoveAccel->at(j)->vx*th + vMoveAccel->at(j)->ax*th*th/2;
-            vMoveAccel->at(j)->ym = vMoveAccel->at(j)->dy + vMoveAccel->at(j)->vy*th + vMoveAccel->at(j)->ay*th*th/2;
-            vItem->at(vMoveAccel->at(j)->item_k)->setPos(vMoveAccel->at(j)->xm, -vMoveAccel->at(j)->ym);
-            j++;
-        }
-    }
-}
-
-void FormProjectX::Stop_clickedAccel()
-{
-    //Действие при нажатии на кнопку "Стоп" во время равноускоренного движения
-    statusAnimation = 0;
-
-    helphAccel = h;
-    helpdtlimitAccel = dtlimit;
-    th = 0;
-    for (int i = 0; i < vMoveAccel->size(); i++){
-        vMoveAccel->at(i)->dx = vMoveAccel->at(i)->x0m;
-        vMoveAccel->at(i)->dy = vMoveAccel->at(i)->y0m;
-        vMoveAccel->at(i)->xm = 0;
-        vMoveAccel->at(i)->ym = 0;
-    }
-
-    timera->stop();
     ui->Play->setEnabled(true);
     ui->Stop->setEnabled(false);
     ui->Pause->setEnabled(false);

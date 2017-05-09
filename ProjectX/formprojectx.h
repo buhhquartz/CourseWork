@@ -29,24 +29,10 @@ class FormProjectX;
 }
 
 struct MoveMultItem{
-    double vx;
-    double vy;
-    double x0m;
-    double y0m;
-    double xm;
-    double ym;
-    int item_k;
-};
-
-struct MoveMultItemAccel{
-    double vx;
-    double vy;
-    double ax;
-    double ay;
-    double dx;
-    double dy;
-    double x0m;
-    double y0m;
+    QString vx;
+    QString vy;
+    double x0;
+    double y0;
     double xm;
     double ym;
     int item_k;
@@ -81,7 +67,6 @@ private slots:
     void on_inW_clicked();
 
     void MovePB_clicked();
-    void Accel_clicked();
     void CoordMeth_clicked();
 
 public slots:
@@ -100,25 +85,19 @@ public slots:
     //Действие
     void delE_clicked();
     void change_trWi_clicked();
-    void change_scene_clicked();
     void AddNewDetail_clicked();
-    void AddNewDetailAccel_clicked();
     void AddNewDetailCoord_clicked();
     void Play_clicked();
-    void Play_clicked_accel();
     void Play_clicked_coord();
     void Stop_clicked();
-    void Stop_clickedAccel();
     void Stop_clickedCoord();
     void update_xy_formove();
-    void update_xy_foraccel();
     void update_xy_forcoord();
     void contact_trWi_clicked();
     void timeSetting_clicked();
     void ChangeTime_clicked();
     void Pause_clicked();
     void change_MoveMultItem();
-    void change_MoveMultItemAccel();
     void change_MoveMultItemCoord();
 
 private:
@@ -179,7 +158,6 @@ private:
 
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
-    QVector<MoveMultItemAccel*> *vMoveAccel;
     QVector<MoveMultItemCoord*> *vMoveCoord;
     QLineEdit *v_x, *v_y, *a_x, *a_y;
     QLineEdit *vA_x, *vA_y, *aA_x, *aA_y, *xA_0, *yA_0, *vV_x, *vV_y, *xV_0, *yV_0, *time_m, *time_h;
@@ -192,11 +170,9 @@ private:
     QTimer *timerv, *timera, *timerc;
     QHBoxLayout *v5, *v6;
     MoveMultItem *Detail;
-    MoveMultItemAccel *DetailAccel;
     MoveMultItemCoord *DetailCoord;
     //
-    QScriptEngine xtExpression, ytExpression;
-    QString str;
+    QScriptEngine xtExpression, ytExpression, vxtExpression, vytExpression;
     //
     int CountItemMovePB;
     int CountItemAccel;
