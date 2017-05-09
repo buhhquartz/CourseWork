@@ -170,7 +170,12 @@ private:
     QGraphicsItemGroup *Wheel;
 
     //Текущие координаты
-    QHBoxLayout *vnc1, *vnc2;
+    QHBoxLayout *vnc1, *vnc2, *vnc3;
+
+    //laynowccor
+    QLineEdit *lnc_t;
+    QLabel *lncLabel_t;
+    double tShow;
 
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
