@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/images">
-        <file>Accel.png</file>
         <file>Coord.png</file>
         <file>Del.png</file>
         <file>Speed.png</file>

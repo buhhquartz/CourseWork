@@ -284,8 +284,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
-       <normaloff>:/images/Coord.png</normaloff>:/images/Coord.png</iconset>
+      <iconset>
+       <normaloff>Coord.png</normaloff>Coord.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -310,8 +310,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
-       <normaloff>:/images/Speed.png</normaloff>:/images/Speed.png</iconset>
+      <iconset>
+       <normaloff>Speed.png</normaloff>Speed.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -471,6 +471,7 @@
      <string>Настройки</string>
     </property>
     <addaction name="timeSetting"/>
+    <addaction name="omega"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -495,9 +496,12 @@
     <string>Время анимации</string>
    </property>
   </action>
+  <action name="omega">
+   <property name="text">
+    <string>Угловая скорость</string>
+   </property>
+  </action>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

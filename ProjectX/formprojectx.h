@@ -41,6 +41,8 @@ struct MoveMultItem{
 struct MoveMultItemCoord{
     QString xt;
     QString yt;
+    QScriptEngine xtExpression;
+    QScriptEngine ytExpression;
     double x0;
     double y0;
     double xm;
@@ -60,9 +62,6 @@ private slots:
     //Материальная точка
     void on_inP_clicked();
 
-    //Стержень
-    void on_inR_clicked();
-
     //Колесо
     void on_inW_clicked();
 
@@ -72,9 +71,6 @@ private slots:
 public slots:
     //Создание материальной точки
     void addPoint_okPoint_clicked();
-
-    //Создание стержня
-    void addRod_okRod_clicked();
 
     //Создание колеса
     void addWheel_okWheel_clicked();
@@ -96,6 +92,8 @@ public slots:
     void contact_trWi_clicked();
     void timeSetting_clicked();
     void ChangeTime_clicked();
+    void omega_clicked();
+    void ChangeOmega_clicked();
     void Pause_clicked();
     void change_MoveMultItem();
     void change_MoveMultItemCoord();
@@ -159,20 +157,22 @@ private:
     //Движение точки
     QVector<MoveMultItem*> *vMovePB;
     QVector<MoveMultItemCoord*> *vMoveCoord;
-    QLineEdit *v_x, *v_y, *a_x, *a_y;
-    QLineEdit *vA_x, *vA_y, *aA_x, *aA_y, *xA_0, *yA_0, *vV_x, *vV_y, *xV_0, *yV_0, *time_m, *time_h;
+    QHBoxLayout *layCoor1, *layCoor2;
+    QLineEdit *v_x, *v_y, *x_t, *y_t;
+    QLineEdit *vA_x, *vA_y, *aA_x, *aA_y, *xA_0, *yA_0, *vV_x, *vV_y, *xV_0, *yV_0, *time_m, *time_h, *omegaEdit;
     QLineEdit *xtC, *ytC, *xC_0, *yC_0;
-    QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *timehl, *xl0, *yl0;
+    QLabel *vxl1, *vyl1, *axl1, *ayl1, *timel, *timehl, *xl0, *yl0, *xtlabel, *ytlabel, *omegaLabel;
     QPushButton *MovePB, *Accel, *CoordMeth;
     QPushButton *AddNewDetail, *AddNewDetailAccel, *AddNewDetailCoord;
-    QPushButton *ChangeTime;
+    QPushButton *ChangeTime, *ChangeOmega;
     QHBoxLayout *vm, *layDelE;
-    QTimer *timerv, *timera, *timerc;
+    QTimer *timerv, *timerc;
     QHBoxLayout *v5, *v6;
     MoveMultItem *Detail;
     MoveMultItemCoord *DetailCoord;
     //
     QScriptEngine xtExpression, ytExpression, vxtExpression, vytExpression;
+    int testCount;
     //
     int CountItemMovePB;
     int CountItemAccel;
@@ -185,11 +185,12 @@ private:
     double ax;
     double ay;
     double h, helph, helphAccel, helphCoord;
-    double vxh, vyh, th, dx, dy, vxp, vyp;
+    double vxh, vyh, th, thCoor, dx, dy, vxp, vyp;
     double tlimit, tAnim;
     double dtlimit, helpdtlimit, helpdtlimitAccel, helpdtlimitCoord;
     double item_k;
     bool boolv, boola;
+    double omega, dfiCoor, dfiMove, angleCoor, anglePB;
 };
 
 
